@@ -126,9 +126,12 @@ function openGame(gameName) {
           Loading controls...
         </div>
         <!-- Hidden elements for games that need them -->
-        <div id="game-score-display" style="display:none;"></div>
-        <div id="game-hi-display" style="display:none;"></div>
-        <div id="game-personality-msg" style="display:none;"></div>
+        <div id="game-score-display" style="position:absolute;opacity:0;pointer-events:none;"></div>
+        <div id="game-hi-display" style="position:absolute;opacity:0;pointer-events:none;"></div>
+        <div id="game-personality-msg" style="position:absolute;opacity:0;pointer-events:none;"></div>
+        <div id="asteroid-score-display" style="position:absolute;opacity:0;pointer-events:none;"></div>
+        <div id="asteroid-hi-display" style="position:absolute;opacity:0;pointer-events:none;"></div>
+        <div id="asteroid-personality-msg" style="position:absolute;opacity:0;pointer-events:none;"></div>
       </div>
     `;
     

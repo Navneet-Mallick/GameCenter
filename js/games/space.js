@@ -176,8 +176,8 @@ function startSpaceGame() {
   }
   
   function draw() {
-    // Background - WHITE for visibility
-    ctx.fillStyle = '#ffffff';
+    // Background - DARK for visibility
+    ctx.fillStyle = '#0a0e27';
     ctx.fillRect(0, 0, W, H);
     
     // Stars
