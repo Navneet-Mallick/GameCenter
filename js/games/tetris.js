@@ -10,7 +10,7 @@ function stopTetrisGame() {
 }
 
 function startTetrisGame() {
-  const canvas = document.getElementById('asteroid-canvas');
+  const canvas = document.getElementById('tetris-canvas') || document.getElementById('game-canvas') || document.querySelector('canvas');
   if (!canvas) return;
 
   // Use a wider canvas: board + side panel

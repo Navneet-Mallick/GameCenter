@@ -7,7 +7,7 @@ let breakoutRunning = false;
 let breakoutRaf;
 
 function startBreakoutGame() {
-  const canvas = document.getElementById('breakout-canvas');
+  const canvas = document.getElementById('breakout-canvas') || document.getElementById('game-canvas') || document.querySelector('canvas');
   if (!canvas) return;
   
   const ctx = canvas.getContext('2d');

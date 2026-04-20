@@ -10,7 +10,7 @@ function stopFlappyGame() {
 }
 
 function startFlappyGame() {
-  const canvas = document.getElementById('snake-canvas');
+  const canvas = document.getElementById('flappy-canvas') || document.getElementById('game-canvas') || document.querySelector('canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;

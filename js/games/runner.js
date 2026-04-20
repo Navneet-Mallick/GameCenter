@@ -10,7 +10,11 @@ function stopRunnerGame() {
 }
 
 function startRunnerGame() {
-  const canvas = document.getElementById('game-canvas');
+  const canvas = document.getElementById('runner-canvas') || document.getElementById('game-canvas') || document.querySelector('canvas');
+  if (!canvas) {
+    console.error('Canvas not found');
+    return;
+  }
   const ctx    = canvas.getContext('2d');
   const W = canvas.width, H = canvas.height;
 
