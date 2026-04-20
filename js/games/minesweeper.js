@@ -179,8 +179,8 @@ class MinesweeperGame {
     const W = this.canvas.width;
     const H = this.canvas.height;
 
-    // Background
-    this.ctx.fillStyle = '#0a0e27';
+    // Background - WHITE for visibility
+    this.ctx.fillStyle = '#ffffff';
     this.ctx.fillRect(0, 0, W, H);
 
     // Grid

@@ -134,8 +134,8 @@ function startBreakoutGame() {
   }
   
   function draw() {
-    // Background
-    ctx.fillStyle = '#0a0e27';
+    // Background - WHITE for visibility
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, W, H);
     
     // Bricks
