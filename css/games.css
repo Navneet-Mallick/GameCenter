@@ -258,10 +258,11 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  background: var(--bg-primary);
+  background: #000000;
   border-radius: var(--radius-md);
   border: 2px solid var(--border-color);
   padding: var(--spacing-md);
+  min-height: 400px;
 }
 
 canvas {
