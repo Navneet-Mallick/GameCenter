@@ -96,6 +96,13 @@ function openGame(gameName) {
         <div class="game-high-score">
           <i class="fas fa-trophy"></i> Best: <span id="high-score">0</span>
         </div>
+        <div class="game-difficulty-indicator">
+          <i class="fas fa-sliders-h"></i>
+          <span>Difficulty:</span>
+          <button class="difficulty-selector-btn" onclick="difficultyManager.showDifficultySelector()">
+            ${difficultyManager.getDifficultyConfig().icon} ${difficultyManager.getDifficultyConfig().name}
+          </button>
+        </div>
       </div>
       <div class="game-canvas-wrapper">
         <canvas id="${game.canvasId}" width="${game.width}" height="${game.height}"></canvas>
@@ -117,6 +124,8 @@ function openGame(gameName) {
   
   // Start game after a short delay
   setTimeout(() => {
+    difficultyManager.applyDifficultyToGame(gameName);
+    pauseSystem.startGame();
     startGame(gameName);
     updatePlayCount(gameName);
     checkNewAchievements();
@@ -131,6 +140,8 @@ function closeGame() {
   if (currentGame && GAMES[currentGame]) {
     stopGame(currentGame);
   }
+  
+  pauseSystem.endGame();
   
   const modal = document.getElementById('game-modal');
   modal.classList.remove('active');
@@ -238,9 +249,13 @@ function updateScore(score) {
         cardHighScore.textContent = score;
       }
       
-      // Show notification
+      // Play sound and show notification
+      soundEffects.success();
       showToast('🎉 New High Score!', 'success');
     }
+    
+    // Track difficulty stats
+    difficultyManager.trackDifficultyStats(currentGame, score);
   }
 }
 
