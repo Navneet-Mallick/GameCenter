@@ -173,11 +173,13 @@ function closeGame() {
 
 function startGame(gameName) {
   const game = GAMES[gameName];
+  console.log(`🎮 Starting game: ${gameName}`, game);
   
   try {
     // Try to load game with loader
     if (!gameLoader.loadGame(gameName)) {
       // Fallback to direct function call
+      console.log(`Calling ${game.start} directly...`);
       if (typeof window[game.start] === 'function') {
         window[game.start]();
         updateGameControls(gameName);
@@ -187,8 +189,9 @@ function startGame(gameName) {
     } else {
       updateGameControls(gameName);
     }
+    console.log(`✓ Game ${gameName} started successfully`);
   } catch (error) {
-    console.error('Game start error:', error);
+    console.error('❌ Game start error:', error);
     showToast('Game failed to load. Check console for details.', 'error');
   }
 }
