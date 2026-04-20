@@ -170,13 +170,18 @@ function closeGame() {
 function startGame(gameName) {
   const game = GAMES[gameName];
   
-  // Check if start function exists
-  if (typeof window[game.start] === 'function') {
-    window[game.start]();
-    updateGameControls(gameName);
+  // Try to load game with loader
+  if (!gameLoader.loadGame(gameName)) {
+    // Fallback to direct function call
+    if (typeof window[game.start] === 'function') {
+      window[game.start]();
+      updateGameControls(gameName);
+    } else {
+      console.error(`Game start function not found: ${game.start}`);
+      showToast('Game failed to load. Please refresh and try again.', 'error');
+    }
   } else {
-    console.error(`Game start function not found: ${game.start}`);
-    showToast('Game not loaded yet!', 'error');
+    updateGameControls(gameName);
   }
 }
 
@@ -187,9 +192,12 @@ function startGame(gameName) {
 function stopGame(gameName) {
   const game = GAMES[gameName];
   
-  // Check if stop function exists
-  if (typeof window[game.stop] === 'function') {
-    window[game.stop]();
+  // Try to stop game with loader
+  if (!gameLoader.stopGame(gameName)) {
+    // Fallback to direct function call
+    if (typeof window[game.stop] === 'function') {
+      window[game.stop]();
+    }
   }
 }
 
