@@ -119,6 +119,7 @@ function openGame(gameName) {
   setTimeout(() => {
     startGame(gameName);
     updatePlayCount(gameName);
+    checkNewAchievements();
   }, 300);
 }
 

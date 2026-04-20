@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initSound();
   initStats();
   loadHighScores();
+  initAchievements();
+  initLeaderboardTabs();
+  updatePlayStreak();
   console.log('%c🎮 GameCenter Loaded!', 'color:#00e5ff;font-size:20px;font-weight:bold;');
 });
 

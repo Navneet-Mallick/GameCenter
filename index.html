@@ -42,6 +42,7 @@
         <a href="#home" class="nav-link active">Home</a>
         <a href="#games" class="nav-link">Games</a>
         <a href="#leaderboard" class="nav-link">Leaderboard</a>
+        <a href="#achievements" class="nav-link">Achievements</a>
         <a href="#about" class="nav-link">About</a>
       </nav>
       <div class="header-actions">
@@ -263,6 +264,18 @@
     </div>
   </section>
 
+  <!-- Achievements Section -->
+  <section id="achievements" class="achievements-section">
+    <div class="container">
+      <h2 class="section-title">
+        <i class="fas fa-medal"></i> Achievements
+      </h2>
+      <div class="achievements-grid" id="achievements-grid">
+        <!-- Achievements will be loaded here -->
+      </div>
+    </div>
+  </section>
+
   <!-- About Section -->
   <section id="about" class="about-section">
     <div class="container">
@@ -280,6 +293,8 @@
             <li><i class="fas fa-check"></i> Optimized for mobile & desktop</li>
             <li><i class="fas fa-check"></i> Smooth 60fps gameplay</li>
             <li><i class="fas fa-check"></i> Local high score tracking</li>
+            <li><i class="fas fa-check"></i> Achievement system</li>
+            <li><i class="fas fa-check"></i> Difficulty levels</li>
           </ul>
         </div>
         <div class="about-features">
@@ -297,6 +312,11 @@
             <i class="fas fa-save"></i>
             <h4>Progress Saved</h4>
             <p>Your scores are saved locally</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-star"></i>
+            <h4>Achievements</h4>
+            <p>Unlock badges and milestones</p>
           </div>
         </div>
       </div>
@@ -342,6 +362,8 @@
   <script src="js/particles.js"></script>
   <script src="js/hero-animation.js"></script>
   <script src="js/stats.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/enhancements.js"></script>
   <script src="js/games/runner.js"></script>
   <script src="js/games/flappy.js"></script>
   <script src="js/games/tetris.js"></script>
