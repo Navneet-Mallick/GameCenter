@@ -7,10 +7,21 @@ let spaceRunning = false;
 let spaceRaf;
 
 function startSpaceGame() {
+  console.log('🚀 Starting Space Invaders...');
   const canvas = document.getElementById('space-canvas') || document.getElementById('game-canvas') || document.querySelector('canvas');
-  if (!canvas) return;
+  if (!canvas) {
+    console.error('❌ Space: Canvas not found');
+    return;
+  }
+  console.log('✓ Space: Canvas found', canvas.id, canvas.width, canvas.height);
   
   const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.error('❌ Space: Could not get 2D context');
+    return;
+  }
+  console.log('✓ Space: Context acquired');
+  
   const W = canvas.width;
   const H = canvas.height;
   
@@ -171,8 +182,12 @@ function startSpaceGame() {
     }
     
     // Update explosions
-    explosions.forEach(exp => exp.life--);
-    explosions = explosions.filter(exp => exp.life > 0);
+    for (let i = explosions.length - 1; i >= 0; i--) {
+      explosions[i].life--;
+      if (explosions[i].life <= 0) {
+        explosions.splice(i, 1);
+      }
+    }
   }
   
   function draw() {
@@ -222,20 +237,22 @@ function startSpaceGame() {
     
     // HUD
     ctx.fillStyle = '#fff';
-    ctx.font = '14px Orbitron';
+    ctx.font = '14px "Orbitron", monospace';
+    ctx.textAlign = 'left';
     ctx.fillText(`Lives: ${lives}`, 10, 20);
-    ctx.fillText(`Level: ${level}`, W - 100, 20);
+    ctx.textAlign = 'right';
+    ctx.fillText(`Level: ${level}`, W - 10, 20);
     
     // Start screen
     if (!gameStarted) {
       ctx.fillStyle = 'rgba(0,0,0,0.5)';
       ctx.fillRect(0, 0, W, H);
       ctx.fillStyle = '#00e5ff';
-      ctx.font = 'bold 24px Orbitron';
+      ctx.font = 'bold 24px "Orbitron", monospace';
       ctx.textAlign = 'center';
       ctx.fillText('SPACE INVADERS', W/2, H/2 - 40);
       ctx.fillStyle = 'rgba(255,255,255,0.7)';
-      ctx.font = '14px Orbitron';
+      ctx.font = '14px "Orbitron", monospace';
       ctx.fillText('Use Arrow Keys to move', W/2, H/2);
       ctx.fillText('Press SPACE to shoot', W/2, H/2 + 30);
       ctx.fillText('Press SPACE to start', W/2, H/2 + 70);
@@ -246,11 +263,11 @@ function startSpaceGame() {
       ctx.fillStyle = 'rgba(0,0,0,0.7)';
       ctx.fillRect(0, 0, W, H);
       ctx.fillStyle = '#ef4444';
-      ctx.font = 'bold 24px Orbitron';
+      ctx.font = 'bold 24px "Orbitron", monospace';
       ctx.textAlign = 'center';
       ctx.fillText('GAME OVER', W/2, H/2);
       ctx.fillStyle = '#fff';
-      ctx.font = '16px Orbitron';
+      ctx.font = '16px "Orbitron", monospace';
       ctx.fillText(`Score: ${score}`, W/2, H/2 + 40);
       ctx.fillText(`Level: ${level}`, W/2, H/2 + 70);
     }
@@ -269,6 +286,7 @@ function startSpaceGame() {
   }
   
   spaceRunning = true;
+  console.log('✓ Space: Game loop starting');
   loop();
 }
 
