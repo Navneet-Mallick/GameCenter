@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameCenter - Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0e27;
+      color: #eaf2ff;
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #00e5ff;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #141a33;
+      border: 2px solid #00e5ff;
+      color: #00e5ff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #00e5ff;
+      color: #0a0e27;
+    }
+    canvas {
+      border: 2px solid #00e5ff;
+      border-radius: 8px;
+      display: block;
+      margin: 20px 0;
+      background: #0a0e27;
+    }
+    .info {
+      background: #141a33;
+      border: 1px solid #00e5ff;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 GameCenter - Test</h1>
+    
+    <div class="buttons">
+      <button onclick="testGame('runner')">🏃 Runner</button>
+      <button onclick="testGame('flappy')">🐦 Flappy</button>
+      <button onclick="testGame('tetris')">🧩 Tetris</button>
+      <button onclick="testGame('snake')">🐍 Snake</button>
+      <button onclick="testGame('breakout')">🎯 Breakout</button>
+      <button onclick="testGame('space')">👾 Space</button>
+      <button onclick="testGame('minesweeper')">💣 Minesweeper</button>
+    </div>
+
+    <canvas id="test-canvas" width="600" height="400"></canvas>
+
+    <div class="info">
+      <p><strong>Controls:</strong></p>
+      <p>🏃 Runner: Space to jump</p>
+      <p>🐦 Flappy: Space to flap</p>
+      <p>🧩 Tetris: Arrow keys to move, Up to rotate</p>
+      <p>🐍 Snake: Arrow keys to move</p>
+      <p>🎯 Breakout: Arrow keys to move paddle</p>
+      <p>👾 Space: Arrow keys to move, Space to shoot</p>
+      <p>💣 Minesweeper: Click to reveal, Right-click to flag</p>
+    </div>
+  </div>
+
+  <script>
+    function testGame(gameName) {
+      const canvas = document.getElementById('test-canvas');
+      
+      // Set canvas size based on game
+      const sizes = {
+        runner: { w: 620, h: 180 },
+        flappy: { w: 620, h: 400 },
+        tetris: { w: 400, h: 600 },
+        snake: { w: 600, h: 600 },
+        breakout: { w: 600, h: 500 },
+        space: { w: 600, h: 600 },
+        minesweeper: { w: 600, h: 600 }
+      };
+      
+      const size = sizes[gameName] || { w: 600, h: 400 };
+      canvas.width = size.w;
+      canvas.height = size.h;
+      canvas.id = `${gameName}-canvas`;
+      
+      console.log(`Starting ${gameName}...`);
+      
+      // Call game start function
+      const startFunc = `start${gameName.charAt(0).toUpperCase() + gameName.slice(1)}Game`;
+      if (typeof window[startFunc] === 'function') {
+        window[startFunc]();
+        console.log(`✓ ${gameName} started`);
+      } else {
+        console.error(`✗ Function not found: ${startFunc}`);
+      }
+    }
+  </script>
+
+  <!-- Load all game scripts -->
+  <script src="js/games/runner.js"></script>
+  <script src="js/games/flappy.js"></script>
+  <script src="js/games/tetris.js"></script>
+  <script src="js/games/snake.js"></script>
+  <script src="js/games/breakout.js"></script>
+  <script src="js/games/space.js"></script>
+  <script src="js/games/minesweeper.js"></script>
+  <script src="js/debug.js"></script>
+</body>
+</html>

@@ -170,18 +170,22 @@ function closeGame() {
 function startGame(gameName) {
   const game = GAMES[gameName];
   
-  // Try to load game with loader
-  if (!gameLoader.loadGame(gameName)) {
-    // Fallback to direct function call
-    if (typeof window[game.start] === 'function') {
-      window[game.start]();
-      updateGameControls(gameName);
+  try {
+    // Try to load game with loader
+    if (!gameLoader.loadGame(gameName)) {
+      // Fallback to direct function call
+      if (typeof window[game.start] === 'function') {
+        window[game.start]();
+        updateGameControls(gameName);
+      } else {
+        throw new Error(`Game start function not found: ${game.start}`);
+      }
     } else {
-      console.error(`Game start function not found: ${game.start}`);
-      showToast('Game failed to load. Please refresh and try again.', 'error');
+      updateGameControls(gameName);
     }
-  } else {
-    updateGameControls(gameName);
+  } catch (error) {
+    console.error('Game start error:', error);
+    showToast('Game failed to load. Check console for details.', 'error');
   }
 }
 
