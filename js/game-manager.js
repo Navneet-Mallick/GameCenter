@@ -125,6 +125,10 @@ function openGame(gameName) {
         <div class="game-controls" id="game-controls">
           Loading controls...
         </div>
+        <!-- Hidden elements for games that need them -->
+        <div id="game-score-display" style="display:none;"></div>
+        <div id="game-hi-display" style="display:none;"></div>
+        <div id="game-personality-msg" style="display:none;"></div>
       </div>
     `;
     
