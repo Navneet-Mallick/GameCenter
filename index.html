@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  
+  <!-- SEO -->
+  <title>GameCenter | Play Awesome Browser Games</title>
+  <meta name="description" content="Play 7 awesome browser games including Runner, Flappy Bird, Tetris, Minesweeper, Snake, Breakout, and Space Invaders. All games optimized for mobile and desktop.">
+  <meta name="keywords" content="browser games, online games, free games, arcade games, tetris, snake, flappy bird">
+  <meta name="author" content="Navneet Mallick">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/games.css">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+
+  <!-- Particles Background -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <i class="fas fa-gamepad"></i>
+        <span>GameCenter</span>
+      </div>
+      <nav class="nav">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#games" class="nav-link">Games</a>
+        <a href="#leaderboard" class="nav-link">Leaderboard</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
+      <div class="header-actions">
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="sound-toggle" class="icon-btn" aria-label="Toggle sound">
+          <i class="fas fa-volume-up"></i>
+        </button>
+        <button id="mobile-menu-btn" class="icon-btn mobile-only" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="glitch" data-text="GameCenter">GameCenter</span>
+        </h1>
+        <p class="hero-subtitle">Play 7 Awesome Browser Games</p>
+        <p class="hero-description">
+          Classic arcade games reimagined for modern browsers. 
+          No downloads, no ads, just pure gaming fun!
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-value" id="total-games">7</div>
+            <div class="stat-label">Games</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="total-plays">0</div>
+            <div class="stat-label">Plays</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Free</div>
+          </div>
+        </div>
+        <a href="#games" class="btn btn-primary btn-large">
+          <i class="fas fa-play"></i> Start Playing
+        </a>
+      </div>
+      <div class="hero-visual">
+        <canvas id="hero-canvas"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games Grid -->
+  <section id="games" class="games-section">
+    <div class="container">
+      <h2 class="section-title">
+        <i class="fas fa-gamepad"></i> Choose Your Game
+      </h2>
+      
+      <div class="games-grid">
+        
+        <!-- Game 1: Runner -->
+        <div class="game-card" data-game="runner">
+          <div class="game-card-header">
+            <div class="game-icon">🏃</div>
+            <div class="game-badge">Classic</div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-title">Runner</h3>
+            <p class="game-description">Jump and dodge obstacles in this endless runner!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-star"></i> <span class="high-score" data-game="runner">0</span></span>
+              <span><i class="fas fa-play"></i> <span class="play-count" data-game="runner">0</span></span>
+            </div>
+          </div>
+          <button class="btn btn-play" onclick="openGame('runner')">
+            <i class="fas fa-play"></i> Play Now
+          </button>
+        </div>
+
+        <!-- Game 2: Flappy Bird -->
+        <div class="game-card" data-game="flappy">
+          <div class="game-card-header">
+            <div class="game-icon">🐦</div>
+            <div class="game-badge featured">Popular</div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-title">Flappy Bird</h3>
+            <p class="game-description">Tap to flap and navigate through pipes!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-star"></i> <span class="high-score" data-game="flappy">0</span></span>
+              <span><i class="fas fa-play"></i> <span class="play-count" data-game="flappy">0</span></span>
+            </div>
+          </div>
+          <button class="btn btn-play" onclick="openGame('flappy')">
+            <i class="fas fa-play"></i> Play Now
+          </button>
+        </div>
+
+        <!-- Game 3: Tetris -->
+        <div class="game-card" data-game="tetris">
+          <div class="game-card-header">
+            <div class="game-icon">🧩</div>
+            <div class="game-badge">Classic</div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-title">Tetris</h3>
+            <p class="game-description">Stack blocks and clear lines in this puzzle classic!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-star"></i> <span class="high-score" data-game="tetris">0</span></span>
+              <span><i class="fas fa-play"></i> <span class="play-count" data-game="tetris">0</span></span>
+            </div>
+          </div>
+          <button class="btn btn-play" onclick="openGame('tetris')">
+            <i class="fas fa-play"></i> Play Now
+          </button>
+        </div>
+
+        <!-- Game 4: Minesweeper -->
+        <div class="game-card" data-game="minesweeper">
+          <div class="game-card-header">
+            <div class="game-icon">💣</div>
+            <div class="game-badge">Brain</div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-title">Minesweeper</h3>
+            <p class="game-description">Find all mines without triggering them!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-clock"></i> <span class="high-score" data-game="minesweeper">--</span>s</span>
+              <span><i class="fas fa-play"></i> <span class="play-count" data-game="minesweeper">0</span></span>
+            </div>
+          </div>
+          <button class="btn btn-play" onclick="openGame('minesweeper')">
+            <i class="fas fa-play"></i> Play Now
+          </button>
+        </div>
+
+        <!-- Game 5: Snake -->
+        <div class="game-card" data-game="snake">
+          <div class="game-card-header">
+            <div class="game-icon">🐍</div>
+            <div class="game-badge featured">New</div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-title">Snake</h3>
+            <p class="game-description">Eat food, grow longer, don't hit yourself!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-star"></i> <span class="high-score" data-game="snake">0</span></span>
+              <span><i class="fas fa-play"></i> <span class="play-count" data-game="snake">0</span></span>
+            </div>
+          </div>
+          <button class="btn btn-play" onclick="openGame('snake')">
+            <i class="fas fa-play"></i> Play Now
+          </button>
+        </div>
+
+        <!-- Game 6: Breakout -->
+        <div class="game-card" data-game="breakout">
+          <div class="game-card-header">
+            <div class="game-icon">🎯</div>
+            <div class="game-badge featured">New</div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-title">Breakout</h3>
+            <p class="game-description">Break all bricks with your paddle and ball!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-star"></i> <span class="high-score" data-game="breakout">0</span></span>
+              <span><i class="fas fa-play"></i> <span class="play-count" data-game="breakout">0</span></span>
+            </div>
+          </div>
+          <button class="btn btn-play" onclick="openGame('breakout')">
+            <i class="fas fa-play"></i> Play Now
+          </button>
+        </div>
+
+        <!-- Game 7: Space Invaders -->
+        <div class="game-card" data-game="space">
+          <div class="game-card-header">
+            <div class="game-icon">👾</div>
+            <div class="game-badge featured">New</div>
+          </div>
+          <div class="game-card-body">
+            <h3 class="game-title">Space Invaders</h3>
+            <p class="game-description">Defend Earth from alien invasion!</p>
+            <div class="game-stats">
+              <span><i class="fas fa-star"></i> <span class="high-score" data-game="space">0</span></span>
+              <span><i class="fas fa-play"></i> <span class="play-count" data-game="space">0</span></span>
+            </div>
+          </div>
+          <button class="btn btn-play" onclick="openGame('space')">
+            <i class="fas fa-play"></i> Play Now
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard Section -->
+  <section id="leaderboard" class="leaderboard-section">
+    <div class="container">
+      <h2 class="section-title">
+        <i class="fas fa-trophy"></i> Leaderboard
+      </h2>
+      <div class="leaderboard-tabs">
+        <button class="tab-btn active" data-game="runner">🏃 Runner</button>
+        <button class="tab-btn" data-game="flappy">🐦 Flappy</button>
+        <button class="tab-btn" data-game="tetris">🧩 Tetris</button>
+        <button class="tab-btn" data-game="snake">🐍 Snake</button>
+        <button class="tab-btn" data-game="breakout">🎯 Breakout</button>
+        <button class="tab-btn" data-game="space">👾 Space</button>
+      </div>
+      <div class="leaderboard-content" id="leaderboard-content">
+        <div class="leaderboard-empty">
+          <i class="fas fa-trophy"></i>
+          <p>No scores yet. Be the first to play!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about-section">
+    <div class="container">
+      <h2 class="section-title">
+        <i class="fas fa-info-circle"></i> About GameCenter
+      </h2>
+      <div class="about-content">
+        <div class="about-text">
+          <h3>Classic Games, Modern Experience</h3>
+          <p>GameCenter brings you 7 classic arcade games reimagined for modern browsers. All games are:</p>
+          <ul class="feature-list">
+            <li><i class="fas fa-check"></i> 100% Free to play</li>
+            <li><i class="fas fa-check"></i> No downloads required</li>
+            <li><i class="fas fa-check"></i> No ads or interruptions</li>
+            <li><i class="fas fa-check"></i> Optimized for mobile & desktop</li>
+            <li><i class="fas fa-check"></i> Smooth 60fps gameplay</li>
+            <li><i class="fas fa-check"></i> Local high score tracking</li>
+          </ul>
+        </div>
+        <div class="about-features">
+          <div class="feature-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h4>Mobile Optimized</h4>
+            <p>Touch controls and responsive design</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-tachometer-alt"></i>
+            <h4>High Performance</h4>
+            <p>Smooth 60fps on all devices</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-save"></i>
+            <h4>Progress Saved</h4>
+            <p>Your scores are saved locally</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <i class="fas fa-gamepad"></i>
+          <span>GameCenter</span>
+        </div>
+        <p>Made with ❤️ by <a href="https://github.com/Navneet-Mallick" target="_blank">Navneet Mallick</a></p>
+        <div class="footer-links">
+          <a href="https://github.com/Navneet-Mallick" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/in/navneet-mallick-313829279" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Game Modal -->
+  <div id="game-modal" class="game-modal">
+    <div class="game-modal-content">
+      <div class="game-modal-header">
+        <h3 id="modal-game-title">Game</h3>
+        <button class="close-btn" onclick="closeGame()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="game-modal-body" id="game-container">
+        <!-- Game will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/particles.js"></script>
+  <script src="js/hero-animation.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/games/runner.js"></script>
+  <script src="js/games/flappy.js"></script>
+  <script src="js/games/tetris.js"></script>
+  <script src="js/games/minesweeper.js"></script>
+  <script src="js/games/snake.js"></script>
+  <script src="js/games/breakout.js"></script>
+  <script src="js/games/space.js"></script>
+  <script src="js/game-manager.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
