@@ -8,14 +8,20 @@
 // ═══════════════════════════════════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Critical initialization
   initTheme();
   initNavigation();
   initSound();
-  initStats();
-  loadHighScores();
-  initAchievements();
-  initLeaderboardTabs();
-  updatePlayStreak();
+  
+  // Defer non-critical initialization
+  performanceOptimizer.scheduleIdleTask(() => {
+    initStats();
+    loadHighScores();
+    initAchievements();
+    initLeaderboardTabs();
+    updatePlayStreak();
+  });
+  
   console.log('%c🎮 GameCenter Loaded!', 'color:#00e5ff;font-size:20px;font-weight:bold;');
 });
 

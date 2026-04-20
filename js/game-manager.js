@@ -82,54 +82,66 @@ function openGame(gameName) {
   currentGame = gameName;
   const game = GAMES[gameName];
   
-  // Update modal title
-  document.getElementById('modal-game-title').textContent = game.title;
-  
-  // Create game container
+  // Show loading indicator
   const container = document.getElementById('game-container');
   container.innerHTML = `
-    <div class="game-container">
-      <div class="game-info">
-        <div class="game-score">
-          <i class="fas fa-star"></i> Score: <span id="current-score">0</span>
-        </div>
-        <div class="game-high-score">
-          <i class="fas fa-trophy"></i> Best: <span id="high-score">0</span>
-        </div>
-        <div class="game-difficulty-indicator">
-          <i class="fas fa-sliders-h"></i>
-          <span>Difficulty:</span>
-          <button class="difficulty-selector-btn" onclick="difficultyManager.showDifficultySelector()">
-            ${difficultyManager.getDifficultyConfig().icon} ${difficultyManager.getDifficultyConfig().name}
-          </button>
-        </div>
-      </div>
-      <div class="game-canvas-wrapper">
-        <canvas id="${game.canvasId}" width="${game.width}" height="${game.height}"></canvas>
-      </div>
-      <div class="game-controls" id="game-controls">
-        Loading controls...
-      </div>
+    <div class="game-loading">
+      <div class="loading-spinner"></div>
+      <p>Loading ${game.title}...</p>
     </div>
   `;
   
-  // Load high score
-  const stats = JSON.parse(localStorage.getItem(`gc_${gameName}_stats`) || '{}');
-  document.getElementById('high-score').textContent = stats.highScore || 0;
-  
-  // Show modal
+  // Show modal immediately
   const modal = document.getElementById('game-modal');
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
   
-  // Start game after a short delay
+  // Update modal title
+  document.getElementById('modal-game-title').textContent = game.title;
+  
+  // Load game asynchronously
   setTimeout(() => {
+    // Create game container
+    container.innerHTML = `
+      <div class="game-container">
+        <div class="game-info">
+          <div class="game-score">
+            <i class="fas fa-star"></i> Score: <span id="current-score">0</span>
+          </div>
+          <div class="game-high-score">
+            <i class="fas fa-trophy"></i> Best: <span id="high-score">0</span>
+          </div>
+          <div class="game-difficulty-indicator">
+            <i class="fas fa-sliders-h"></i>
+            <span>Difficulty:</span>
+            <button class="difficulty-selector-btn" onclick="difficultyManager.showDifficultySelector()">
+              ${difficultyManager.getDifficultyConfig().icon} ${difficultyManager.getDifficultyConfig().name}
+            </button>
+          </div>
+        </div>
+        <div class="game-canvas-wrapper">
+          <canvas id="${game.canvasId}" width="${game.width}" height="${game.height}"></canvas>
+        </div>
+        <div class="game-controls" id="game-controls">
+          Loading controls...
+        </div>
+      </div>
+    `;
+    
+    // Load high score
+    const stats = JSON.parse(localStorage.getItem(`gc_${gameName}_stats`) || '{}');
+    document.getElementById('high-score').textContent = stats.highScore || 0;
+    
+    // Start game
     difficultyManager.applyDifficultyToGame(gameName);
     pauseSystem.startGame();
     startGame(gameName);
     updatePlayCount(gameName);
     checkNewAchievements();
-  }, 300);
+    
+    // Preload next game
+    performanceOptimizer.preloadNextGame(gameName);
+  }, 100);
 }
 
 // ═══════════════════════════════════════════════════════════════════
