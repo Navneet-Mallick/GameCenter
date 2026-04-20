@@ -3,8 +3,8 @@
  * Provides offline functionality and caching for PWA
  */
 
-const CACHE_NAME = 'gamecenter-v1.0.0';
-const RUNTIME_CACHE = 'gamecenter-runtime';
+const CACHE_NAME = 'gamecenter-v1.0.1';
+const RUNTIME_CACHE = 'gamecenter-runtime-v1.0.1';
 
 // Files to cache immediately
 const PRECACHE_URLS = [
