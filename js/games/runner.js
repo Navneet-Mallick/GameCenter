@@ -20,7 +20,7 @@ function startRunnerGame() {
 
   // ── Theme colors ──
   const CLR = {
-    bg:       '#0a0e27',
+    bg:       '#ffffff',
     ground:   '#00d9ff',
     player:   '#00d9ff',
     obstacle: '#7c3aed',
