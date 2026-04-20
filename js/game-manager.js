@@ -176,23 +176,46 @@ function startGame(gameName) {
   console.log(`🎮 Starting game: ${gameName}`, game);
   
   try {
-    // Try to load game with loader
-    if (!gameLoader.loadGame(gameName)) {
-      // Fallback to direct function call
-      console.log(`Calling ${game.start} directly...`);
-      if (typeof window[game.start] === 'function') {
-        window[game.start]();
-        updateGameControls(gameName);
-      } else {
-        throw new Error(`Game start function not found: ${game.start}`);
-      }
-    } else {
-      updateGameControls(gameName);
+    // Verify canvas exists
+    const canvas = document.getElementById(game.canvasId);
+    if (!canvas) {
+      throw new Error(`Canvas not found: ${game.canvasId}`);
     }
+    console.log(`✓ Canvas found:`, canvas.id, canvas.width, canvas.height);
+    
+    // Verify game function exists
+    if (typeof window[game.start] !== 'function') {
+      throw new Error(`Game start function not found: ${game.start}`);
+    }
+    console.log(`✓ Game function found: ${game.start}`);
+    
+    // Start the game
+    window[game.start]();
+    updateGameControls(gameName);
     console.log(`✓ Game ${gameName} started successfully`);
+    
+    // Verify canvas is rendering
+    setTimeout(() => {
+      const ctx = canvas.getContext('2d');
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const hasContent = Array.from(imageData.data).some(v => v !== 0);
+      console.log(`Canvas rendering check: ${hasContent ? '✓ Content detected' : '⚠ No content yet'}`);
+    }, 500);
+    
   } catch (error) {
     console.error('❌ Game start error:', error);
-    showToast('Game failed to load. Check console for details.', 'error');
+    showToast(`Game failed to load: ${error.message}`, 'error');
+    
+    // Show error in game container
+    const container = document.getElementById('game-container');
+    container.innerHTML = `
+      <div class="game-loading">
+        <div style="color: #ff4500; font-size: 3rem;">❌</div>
+        <p style="color: #ff4500;">Failed to load game</p>
+        <p style="color: #888; font-size: 0.9rem;">${error.message}</p>
+        <button class="btn btn-primary" onclick="closeGame()">Close</button>
+      </div>
+    `;
   }
 }
 

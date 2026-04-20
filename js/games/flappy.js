@@ -16,7 +16,7 @@ function startFlappyGame() {
   const W = canvas.width, H = canvas.height;
 
   const CLR = {
-    bg1: '#0a0e27', bg2: '#0d1535',
+    bg1: '#ffffff', bg2: '#f0f0f0',
     bird: '#f59e0b', birdGlow: 'rgba(245,158,11,0.6)',
     pipe: '#7c3aed', pipeGlow: 'rgba(124,58,237,0.5)',
     ground: '#00d9ff', text: '#00d9ff', dead: '#ff4500',
