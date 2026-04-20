@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA Test - GameCenter</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0e27;
+      color: #fff;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #00e5ff;
+      margin-bottom: 20px;
+    }
+    .test-section {
+      background: #141a33;
+      border: 2px solid #00e5ff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .test-section h2 {
+      color: #00e5ff;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+    .status {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .status.pass { background: #22c55e; color: #000; }
+    .status.fail { background: #ef4444; color: #fff; }
+    .status.warn { background: #f59e0b; color: #000; }
+    button {
+      background: #00e5ff;
+      color: #0a0e27;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+    }
+    button:hover { background: #00b8cc; }
+    pre {
+      background: #0a0e27;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+    .test-item {
+      padding: 10px;
+      margin: 5px 0;
+      background: #0a0e27;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 GameCenter PWA Test Suite</h1>
+    
+    <div class="test-section">
+      <h2>1. Service Worker <span class="status" id="sw-status">Testing...</span></h2>
+      <div id="sw-details"></div>
+      <button onclick="testServiceWorker()">Test Service Worker</button>
+      <button onclick="unregisterSW()">Unregister SW</button>
+    </div>
+
+    <div class="test-section">
+      <h2>2. Manifest <span class="status" id="manifest-status">Testing...</span></h2>
+      <div id="manifest-details"></div>
+      <button onclick="testManifest()">Test Manifest</button>
+    </div>
+
+    <div class="test-section">
+      <h2>3. Cache Storage <span class="status" id="cache-status">Testing...</span></h2>
+      <div id="cache-details"></div>
+      <button onclick="testCache()">Test Cache</button>
+      <button onclick="clearCache()">Clear Cache</button>
+    </div>
+
+    <div class="test-section">
+      <h2>4. Install Prompt <span class="status" id="install-status">Testing...</span></h2>
+      <div id="install-details"></div>
+      <button onclick="testInstall()">Test Install</button>
+    </div>
+
+    <div class="test-section">
+      <h2>5. Offline Support <span class="status" id="offline-status">Testing...</span></h2>
+      <div id="offline-details"></div>
+      <button onclick="testOffline()">Test Offline</button>
+    </div>
+
+    <div class="test-section">
+      <h2>Quick Actions</h2>
+      <button onclick="runAllTests()">Run All Tests</button>
+      <button onclick="location.href='index.html'">Open GameCenter</button>
+      <button onclick="location.href='generate-icons.html'">Generate Icons</button>
+    </div>
+  </div>
+
+  <script>
+    // Test Service Worker
+    async function testServiceWorker() {
+      const status = document.getElementById('sw-status');
+      const details = document.getElementById('sw-details');
+      
+      if ('serviceWorker' in navigator) {
+        try {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          if (registrations.length > 0) {
+            status.className = 'status pass';
+            status.textContent = 'PASS';
+            details.innerHTML = `
+              <div class="test-item">
+                ✅ Service Worker registered<br>
+                Scope: ${registrations[0].scope}<br>
+                State: ${registrations[0].active ? 'Active' : 'Inactive'}
+              </div>
+            `;
+          } else {
+            status.className = 'status warn';
+            status.textContent = 'WARN';
+            details.innerHTML = '<div class="test-item">⚠️ No service worker registered. Visit index.html first.</div>';
+          }
+        } catch (error) {
+          status.className = 'status fail';
+          status.textContent = 'FAIL';
+          details.innerHTML = `<div class="test-item">❌ Error: ${error.message}</div>`;
+        }
+      } else {
+        status.className = 'status fail';
+        status.textContent = 'FAIL';
+        details.innerHTML = '<div class="test-item">❌ Service Worker not supported</div>';
+      }
+    }
+
+    // Test Manifest
+    async function testManifest() {
+      const status = document.getElementById('manifest-status');
+      const details = document.getElementById('manifest-details');
+      
+      try {
+        const response = await fetch('/manifest.json');
+        const manifest = await response.json();
+        
+        status.className = 'status pass';
+        status.textContent = 'PASS';
+        details.innerHTML = `
+          <div class="test-item">
+            ✅ Manifest loaded successfully<br>
+            Name: ${manifest.name}<br>
+            Short Name: ${manifest.short_name}<br>
+            Icons: ${manifest.icons.length} defined<br>
+            Display: ${manifest.display}<br>
+            Theme: ${manifest.theme_color}
+          </div>
+          <pre>${JSON.stringify(manifest, null, 2)}</pre>
+        `;
+      } catch (error) {
+        status.className = 'status fail';
+        status.textContent = 'FAIL';
+        details.innerHTML = `<div class="test-item">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    // Test Cache
+    async function testCache() {
+      const status = document.getElementById('cache-status');
+      const details = document.getElementById('cache-details');
+      
+      try {
+        const cacheNames = await caches.keys();
+        if (cacheNames.length > 0) {
+          let html = '<div class="test-item">✅ Caches found:<br>';
+          for (const name of cacheNames) {
+            const cache = await caches.open(name);
+            const keys = await cache.keys();
+            html += `<br><strong>${name}</strong>: ${keys.length} files cached`;
+          }
+          html += '</div>';
+          
+          status.className = 'status pass';
+          status.textContent = 'PASS';
+          details.innerHTML = html;
+        } else {
+          status.className = 'status warn';
+          status.textContent = 'WARN';
+          details.innerHTML = '<div class="test-item">⚠️ No caches found. Visit index.html first.</div>';
+        }
+      } catch (error) {
+        status.className = 'status fail';
+        status.textContent = 'FAIL';
+        details.innerHTML = `<div class="test-item">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    // Test Install
+    function testInstall() {
+      const status = document.getElementById('install-status');
+      const details = document.getElementById('install-details');
+      
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        status.className = 'status pass';
+        status.textContent = 'PASS';
+        details.innerHTML = '<div class="test-item">✅ App is installed and running in standalone mode!</div>';
+      } else {
+        status.className = 'status warn';
+        status.textContent = 'WARN';
+        details.innerHTML = '<div class="test-item">⚠️ App not installed. Install prompt will appear on index.html (HTTPS required for production).</div>';
+      }
+    }
+
+    // Test Offline
+    function testOffline() {
+      const status = document.getElementById('offline-status');
+      const details = document.getElementById('offline-details');
+      
+      if (navigator.onLine) {
+        status.className = 'status warn';
+        status.textContent = 'ONLINE';
+        details.innerHTML = '<div class="test-item">⚠️ Currently online. To test offline: Open DevTools → Network → Check "Offline" → Reload page</div>';
+      } else {
+        status.className = 'status pass';
+        status.textContent = 'OFFLINE';
+        details.innerHTML = '<div class="test-item">✅ Currently offline! If this page loaded, offline support is working!</div>';
+      }
+    }
+
+    // Unregister Service Worker
+    async function unregisterSW() {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for (const registration of registrations) {
+        await registration.unregister();
+      }
+      alert('Service Worker unregistered. Reload to re-register.');
+      location.reload();
+    }
+
+    // Clear Cache
+    async function clearCache() {
+      const cacheNames = await caches.keys();
+      for (const name of cacheNames) {
+        await caches.delete(name);
+      }
+      alert('All caches cleared!');
+      location.reload();
+    }
+
+    // Run All Tests
+    async function runAllTests() {
+      await testServiceWorker();
+      await testManifest();
+      await testCache();
+      testInstall();
+      testOffline();
+    }
+
+    // Auto-run tests on load
+    window.addEventListener('load', runAllTests);
+  </script>
+</body>
+</html>
