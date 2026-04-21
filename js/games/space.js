@@ -77,7 +77,24 @@ function startSpaceGame() {
       e.preventDefault();
     }
     
-    if (e.key === ' ' && gameStarted) {
+    if (gameOver && e.key === ' ') {
+      // Restart game
+      score = 0;
+      lives = 3;
+      level = 1;
+      enemySpeed = 1;
+      gameOver = false;
+      gameStarted = true;
+      bullets.length = 0;
+      explosions.length = 0;
+      player.x = W / 2 - 15;
+      spawnEnemies();
+      updateScore(0);
+      e.preventDefault();
+      return;
+    }
+    
+    if (e.key === ' ' && gameStarted && !gameOver) {
       bullets.push({
         x: player.x + player.w / 2 - 2,
         y: player.y,
@@ -91,6 +108,85 @@ function startSpaceGame() {
   
   document.addEventListener('keydown', keyHandler);
   document.addEventListener('keyup', keyHandler);
+  
+  // Mobile touch controls
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isTouching = false;
+  
+  const touchStart = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    touchStartX = touch.clientX - rect.left;
+    touchStartY = touch.clientY - rect.top;
+    isTouching = true;
+    
+    // Start game on touch
+    if (!gameStarted) {
+      gameStarted = true;
+      e.preventDefault();
+    }
+  };
+  
+  const touchMove = (e) => {
+    if (!isTouching || !gameStarted || gameOver) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    const touchX = touch.clientX - rect.left;
+    
+    // Move player to touch position
+    const targetX = touchX - player.w / 2;
+    player.x = Math.max(0, Math.min(W - player.w, targetX));
+    
+    e.preventDefault();
+  };
+  
+  const touchEnd = (e) => {
+    if (!gameStarted) return;
+    
+    if (gameOver) {
+      // Restart game
+      score = 0;
+      lives = 3;
+      level = 1;
+      enemySpeed = 1;
+      gameOver = false;
+      gameStarted = true;
+      bullets.length = 0;
+      explosions.length = 0;
+      player.x = W / 2 - 15;
+      spawnEnemies();
+      updateScore(0);
+      e.preventDefault();
+      return;
+    }
+    
+    // Shoot on tap
+    bullets.push({
+      x: player.x + player.w / 2 - 2,
+      y: player.y,
+      w: 4,
+      h: 10,
+      vy: -7
+    });
+    
+    isTouching = false;
+    e.preventDefault();
+  };
+  
+  canvas.addEventListener('touchstart', touchStart, { passive: false });
+  canvas.addEventListener('touchmove', touchMove, { passive: false });
+  canvas.addEventListener('touchend', touchEnd, { passive: false });
+  
+  // Cleanup function
+  const cleanup = () => {
+    document.removeEventListener('keydown', keyHandler);
+    document.removeEventListener('keyup', keyHandler);
+    canvas.removeEventListener('touchstart', touchStart);
+    canvas.removeEventListener('touchmove', touchMove);
+    canvas.removeEventListener('touchend', touchEnd);
+  };
   
   function update() {
     if (!gameStarted || gameOver) return;
@@ -253,9 +349,9 @@ function startSpaceGame() {
       ctx.fillText('SPACE INVADERS', W/2, H/2 - 40);
       ctx.fillStyle = 'rgba(255,255,255,0.7)';
       ctx.font = '14px "Orbitron", monospace';
-      ctx.fillText('Use Arrow Keys to move', W/2, H/2);
-      ctx.fillText('Press SPACE to shoot', W/2, H/2 + 30);
-      ctx.fillText('Press SPACE to start', W/2, H/2 + 70);
+      ctx.fillText('Arrow Keys or Touch to move', W/2, H/2);
+      ctx.fillText('SPACE or Tap to shoot', W/2, H/2 + 30);
+      ctx.fillText('Tap to start', W/2, H/2 + 70);
     }
     
     // Game over
@@ -270,13 +366,15 @@ function startSpaceGame() {
       ctx.font = '16px "Orbitron", monospace';
       ctx.fillText(`Score: ${score}`, W/2, H/2 + 40);
       ctx.fillText(`Level: ${level}`, W/2, H/2 + 70);
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.font = '14px "Orbitron", monospace';
+      ctx.fillText('Tap or press SPACE to restart', W/2, H/2 + 100);
     }
   }
   
   function loop() {
     if (!spaceRunning) {
-      document.removeEventListener('keydown', keyHandler);
-      document.removeEventListener('keyup', keyHandler);
+      cleanup();
       return;
     }
     
