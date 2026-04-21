@@ -262,6 +262,7 @@ function startFlappyGame() {
         if (!p.passed && p.x + PIPE_W < bird.x) {
           p.passed = true;
           score++;
+          updateScore(score); // Update global score display
           if (scoreDisplay) scoreDisplay.textContent = `SCORE: ${score}`;
           if (score > hiScore) {
             hiScore = score;

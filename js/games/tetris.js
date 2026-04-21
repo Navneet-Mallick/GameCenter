@@ -123,6 +123,7 @@ function startTetrisGame() {
       cleared.forEach(r => { board.splice(r,1); board.unshift(Array(COLS).fill(null)); });
       const pts = [0,100,300,500,800];
       score += (pts[cleared.length]||800)*level;
+      updateScore(score); // Update global score display
       lines += cleared.length;
       level = Math.floor(lines/10)+1;
       dropInterval = Math.max(80, 1000 - (level-1)*90);

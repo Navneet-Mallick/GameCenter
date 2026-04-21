@@ -239,6 +239,10 @@ function startRunnerGame() {
       score++;
       speed = 5.5 + Math.floor(score / 300) * 0.5;
 
+      // Update global score display
+      const displayScore = Math.floor(score / 6);
+      updateScore(displayScore);
+
       // Spawn obstacles
       obstacleTimer++;
       const gap = Math.max(55, 105 - Math.floor(score / 200) * 5);
