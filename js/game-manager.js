@@ -5,6 +5,7 @@
 
 let currentGame = null;
 let currentGameInstance = null;
+let highScoreNotified = false; // Track if high score notification was shown this session
 
 // ═══════════════════════════════════════════════════════════════════
 //  GAME CONFIGURATION
@@ -80,6 +81,7 @@ function openGame(gameName) {
   }
 
   currentGame = gameName;
+  highScoreNotified = false; // Reset notification flag for new game session
   const game = GAMES[gameName];
   
   // Show loading indicator
@@ -290,7 +292,9 @@ function updateScore(score) {
   // Check for new high score
   if (currentGame) {
     const stats = JSON.parse(localStorage.getItem(`gc_${currentGame}_stats`) || '{}');
-    if (score > (stats.highScore || 0)) {
+    const previousHighScore = stats.highScore || 0;
+    
+    if (score > previousHighScore) {
       stats.highScore = score;
       localStorage.setItem(`gc_${currentGame}_stats`, JSON.stringify(stats));
       
@@ -306,9 +310,12 @@ function updateScore(score) {
         cardHighScore.textContent = score;
       }
       
-      // Play sound and show notification
-      soundEffects.success();
-      showToast('🎉 New High Score!', 'success');
+      // Only show notification once per game session when first beating the high score
+      if (!highScoreNotified) {
+        soundEffects.success();
+        showToast('🎉 New High Score!', 'success');
+        highScoreNotified = true;
+      }
     }
     
     // Track difficulty stats
