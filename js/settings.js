@@ -21,8 +21,11 @@ class SettingsManager {
 
   init() {
     this.createSettingsUI();
-    this.setupEventListeners();
-    this.applySettings();
+    // Delay setupEventListeners to ensure DOM is fully ready
+    setTimeout(() => {
+      this.setupEventListeners();
+      this.applySettings();
+    }, 0);
   }
 
   createSettingsUI() {
@@ -295,6 +298,44 @@ class SettingsManager {
         localStorage.setItem('gc_notifications', e.target.checked);
       });
     }
+
+    // Clear Data Button - Enhanced
+    const clearDataBtn = document.querySelector('.settings-section button[onclick*="clearData"]') || 
+                          document.querySelector('button.btn-secondary[onclick*="clearData"]');
+    if (clearDataBtn) {
+      clearDataBtn.removeAttribute('onclick');
+      clearDataBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.clearData();
+      });
+    }
+
+    // Done Button - Enhanced  
+    const doneBtn = document.querySelector('.settings-footer .btn-primary') || 
+                    document.querySelector('button[onclick*="closeSettings"]');
+    if (doneBtn && !doneBtn.hasListener) {
+      doneBtn.removeAttribute('onclick');
+      doneBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closeSettings();
+      });
+      doneBtn.hasListener = true;
+    }
+
+    // Close Button (X icon) - Enhanced
+    const closeBtn = document.querySelector('.settings-header .close-btn') ||
+                     document.querySelector('.settings-modal .close-btn');
+    if (closeBtn && !closeBtn.hasListener) {
+      closeBtn.removeAttribute('onclick');
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closeSettings();
+      });
+      closeBtn.hasListener = true;
+    }
   }
 
   applySettings() {
@@ -338,6 +379,8 @@ class SettingsManager {
     if (modal) {
       modal.style.display = 'flex';
       this.updateStorageInfo();
+      // Re-setup event listeners to ensure they're active
+      this.setupEventListeners();
     }
   }
 
@@ -357,17 +400,32 @@ class SettingsManager {
         }
       }
       const usedMB = (used / 1024 / 1024).toFixed(2);
-      document.getElementById('storage-used').textContent = usedMB;
+      const usedEl = document.getElementById('storage-used');
+      if (usedEl) {
+        usedEl.textContent = usedMB;
+      }
     } catch (e) {
       console.warn('Could not calculate storage');
     }
   }
 
   clearData() {
-    if (confirm('Are you sure? This will delete all your scores and achievements!')) {
-      localStorage.clear();
-      showToast('All data cleared', 'success');
-      setTimeout(() => location.reload(), 1000);
+    const confirmed = confirm('Are you sure? This will delete all your scores, achievements, and settings!\n\nThis action cannot be undone.');
+    
+    if (confirmed) {
+      try {
+        localStorage.clear();
+        console.log('✓ All data cleared successfully');
+        showToast('All data cleared successfully!', 'success');
+        
+        // Reload page after a short delay to reinitialize everything
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
+      } catch (error) {
+        console.error('Error clearing data:', error);
+        showToast('Error clearing data', 'error');
+      }
     }
   }
 

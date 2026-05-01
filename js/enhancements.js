@@ -121,6 +121,23 @@ function initLeaderboardTabs() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+//  REFRESH ACTIVE LEADERBOARD
+// ═══════════════════════════════════════════════════════════════════
+
+function refreshActiveLeaderboard() {
+  const activeBtn = document.querySelector('.tab-btn.active');
+  if (activeBtn && activeBtn.dataset.game) {
+    updateLeaderboard(activeBtn.dataset.game);
+  } else {
+    // Fallback to first tab
+    const firstBtn = document.querySelector('.tab-btn');
+    if (firstBtn) {
+      updateLeaderboard(firstBtn.dataset.game);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
 //  PERFORMANCE MONITORING
 // ═══════════════════════════════════════════════════════════════════
 
@@ -249,6 +266,7 @@ function updatePlayStreak() {
 window.getGameStatistics = getGameStatistics;
 window.displayGameStatistics = displayGameStatistics;
 window.updateLeaderboard = updateLeaderboard;
+window.refreshActiveLeaderboard = refreshActiveLeaderboard;
 window.initLeaderboardTabs = initLeaderboardTabs;
 window.getRandomTip = getRandomTip;
 window.showGameTip = showGameTip;

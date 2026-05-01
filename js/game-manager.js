@@ -168,6 +168,13 @@ function closeGame() {
   modal.classList.remove('active');
   document.body.style.overflow = '';
   
+  // Refresh leaderboard to show updated scores
+  if (window.refreshActiveLeaderboard) {
+    setTimeout(() => {
+      refreshActiveLeaderboard();
+    }, 100);
+  }
+  
   currentGame = null;
   currentGameInstance = null;
 }

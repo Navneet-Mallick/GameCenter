@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="grad512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00e5ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow512">
+      <feDropShadow dx="4" dy="4" stdDeviation="8" flood-opacity="0.4"/>
+    </filter>
+    <radialGradient id="shine512" cx="35%" cy="35%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" fill="url(#grad512)" rx="100"/>
+  <rect width="512" height="512" fill="url(#shine512)" rx="100"/>
+  
+  <!-- Main Gamepad Controller -->
+  <g filter="url(#shadow512)">
+    <!-- Main body -->
+    <path d="M 100 160 Q 80 160 80 180 L 80 332 Q 80 352 100 352 L 412 352 Q 432 352 432 332 L 432 180 Q 432 160 412 160 Z" fill="#0a0e27" opacity="0.95"/>
+    
+    <!-- Grip areas (left and right) -->
+    <rect x="60" y="200" width="40" height="100" rx="20" fill="#1a1f3a" opacity="0.8"/>
+    <rect x="412" y="200" width="40" height="100" rx="20" fill="#1a1f3a" opacity="0.8"/>
+    
+    <!-- Left D-Pad Section -->
+    <g transform="translate(160, 256)">
+      <!-- D-Pad background circle -->
+      <circle cx="0" cy="0" r="56" fill="#00e5ff" opacity="0.15"/>
+      
+      <!-- D-Pad directions -->
+      <!-- Up button -->
+      <rect x="-8" y="-40" width="16" height="28" rx="4" fill="#00d9ff"/>
+      <!-- Down button -->
+      <rect x="-8" y="12" width="16" height="28" rx="4" fill="#00d9ff"/>
+      <!-- Left button -->
+      <rect x="-40" y="-8" width="28" height="16" rx="4" fill="#00d9ff"/>
+      <!-- Right button -->
+      <rect x="12" y="-8" width="28" height="16" rx="4" fill="#00d9ff"/>
+      
+      <!-- Center dot -->
+      <circle cx="0" cy="0" r="6" fill="#0a0e27"/>
+    </g>
+    
+    <!-- Right Buttons Section -->
+    <g transform="translate(352, 256)">
+      <!-- Buttons background circle -->
+      <circle cx="0" cy="0" r="56" fill="#7c3aed" opacity="0.15"/>
+      
+      <!-- Button A (bottom-right, red) -->
+      <circle cx="28" cy="28" r="18" fill="#ff4500" opacity="0.9"/>
+      <circle cx="28" cy="28" r="16" fill="#ff6b35"/>
+      
+      <!-- Button B (right, yellow) -->
+      <circle cx="40" cy="0" r="18" fill="#f59e0b" opacity="0.9"/>
+      <circle cx="40" cy="0" r="16" fill="#fbbf24"/>
+      
+      <!-- Button X (top-left, blue) -->
+      <circle cx="-40" cy="0" r="18" fill="#3b82f6" opacity="0.9"/>
+      <circle cx="-40" cy="0" r="16" fill="#60a5fa"/>
+      
+      <!-- Button Y (top-right, green) -->
+      <circle cx="0" cy="-40" r="18" fill="#10b981" opacity="0.9"/>
+      <circle cx="0" cy="-40" r="16" fill="#34d399"/>
+      
+      <!-- Button labels (small text) -->
+      <text x="28" y="34" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="bold" fill="white">A</text>
+      <text x="40" y="6" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="bold" fill="white">B</text>
+      <text x="-40" y="6" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="bold" fill="white">X</text>
+      <text x="0" y="-34" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="bold" fill="white">Y</text>
+    </g>
+    
+    <!-- Center button area (START) -->
+    <g transform="translate(256, 240)">
+      <rect x="-32" y="-10" width="64" height="20" rx="4" fill="#00d9ff" opacity="0.2"/>
+      <text x="0" y="2" text-anchor="middle" font-size="12" font-weight="bold" fill="#00d9ff" opacity="0.7">START</text>
+    </g>
+    
+    <!-- Shoulder buttons -->
+    <rect x="120" y="140" width="80" height="24" rx="8" fill="#00d9ff" opacity="0.3"/>
+    <rect x="312" y="140" width="80" height="24" rx="8" fill="#7c3aed" opacity="0.3"/>
+  </g>
+  
+  <!-- Decorative gaming elements -->
+  <g opacity="0.2">
+    <circle cx="60" cy="60" r="20" fill="#00d9ff"/>
+    <circle cx="452" cy="452" r="20" fill="#7c3aed"/>
+    <circle cx="452" cy="60" r="15" fill="#f59e0b"/>
+  </g>
+  
+  <!-- Shine effect -->
+  <ellipse cx="150" cy="150" rx="80" ry="80" fill="white" opacity="0.05"/>
+</svg>
