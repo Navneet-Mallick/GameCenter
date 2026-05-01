@@ -148,7 +148,7 @@ class DifficultyManager {
         <div class="difficulty-options">
           ${Object.entries(this.difficulties).map(([key, diff]) => `
             <button class="difficulty-option ${key === this.currentDifficulty ? 'active' : ''}" 
-                    onclick="difficultyManager.selectDifficulty('${key}')">
+                    onclick="difficultyManager.selectDifficulty('${key}', this)">
               <div class="difficulty-icon">${diff.icon}</div>
               <div class="difficulty-name">${diff.name}</div>
               <div class="difficulty-desc">${diff.description}</div>
@@ -163,11 +163,21 @@ class DifficultyManager {
     return selectorHTML;
   }
 
-  selectDifficulty(difficulty) {
+  selectDifficulty(difficulty, clickedElement) {
     this.setDifficulty(difficulty);
+
     const options = document.querySelectorAll('.difficulty-option');
     options.forEach(opt => opt.classList.remove('active'));
-    event.target.closest('.difficulty-option').classList.add('active');
+
+    if (clickedElement) {
+      clickedElement.classList.add('active');
+    }
+
+    const selectorButton = document.querySelector('.difficulty-selector-btn');
+    if (selectorButton) {
+      const config = this.getDifficultyConfig();
+      selectorButton.textContent = `${config.icon} ${config.name}`;
+    }
   }
 
   showDifficultySelector() {

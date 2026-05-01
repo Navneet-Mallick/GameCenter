@@ -31,6 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initTheme() {
   const themeToggle = document.getElementById('theme-toggle');
+  if (!themeToggle) {
+    return;
+  }
+
   const savedTheme = localStorage.getItem('gc_theme') || 'dark';
   
   if (savedTheme === 'light') {
