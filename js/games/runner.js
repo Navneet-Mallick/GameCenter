@@ -30,12 +30,15 @@ function startRunnerGame() {
   };
 
   const GROUND_Y = H - 30;
-  const GRAVITY  = 0.55;
-  const JUMP_V   = -12;
+  
+  // Difficulty settings
+  const diff = difficultyManager.getRunnerConfig();
+  const GRAVITY  = diff.gravity;
+  const JUMP_V   = diff.jumpPower * -1;
 
   // ── State ──
   let score = 0, hiScore = parseInt(localStorage.getItem('nm_runner_hi') || '0');
-  let speed = 5.5, frame = 0, dead = false, started = false;
+  let speed = diff.speed, frame = 0, dead = false, started = false;
   let particles = [], obstacles = [], stars = [];
   const hiDisplay = document.getElementById('game-hi-display');
   const personalityMsg = document.getElementById('game-personality-msg');
@@ -239,13 +242,13 @@ function startRunnerGame() {
       score++;
       speed = 5.5 + Math.floor(score / 300) * 0.5;
 
-      const displayScore = Math.floor(score / 6);
+      const displayScore = Math.floor(score / 6 * diff.scoreMultiplier);
       updateScore(displayScore);
       updatePersonality(displayScore);
 
       // Spawn obstacles
       obstacleTimer++;
-      const gap = Math.max(55, 105 - Math.floor(score / 200) * 5);
+      const gap = Math.max(55, diff.obstacleFrequency - Math.floor(score / 200) * 5);
       if (obstacleTimer > gap) {
         spawnObstacle();
         obstacleTimer = 0;

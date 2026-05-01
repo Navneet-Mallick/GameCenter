@@ -19,21 +19,24 @@ function startBreakoutGame() {
   const W = canvas.width;
   const H = canvas.height;
   
+  // Difficulty settings
+  const diff = difficultyManager.getBreakoutConfig();
+  
   // Game objects
   const paddle = {
     x: W / 2 - 40,
     y: H - 20,
     w: 80,
     h: 10,
-    speed: 6
+    speed: diff.paddleSpeed
   };
   
   const ball = {
     x: W / 2,
     y: H - 40,
     r: 5,
-    vx: 3,
-    vy: -3
+    vx: diff.ballSpeed * 0.6,
+    vy: diff.ballSpeed * -0.6
   };
   
   const bricks = [];
@@ -44,7 +47,7 @@ function startBreakoutGame() {
   const brickRows = 4;
   
   let score = 0;
-  let lives = 3;
+  let lives = diff.lives;
   let gameOver = false;
   let gameWon = false;
   let gameStarted = false;
@@ -109,7 +112,7 @@ function startBreakoutGame() {
           ball.y < brick.y + brick.h) {
         brick.active = false;
         ball.vy *= -1;
-        score += 10;
+        score += diff.brickScore;
         updateScore(score);
       }
     });
@@ -122,8 +125,8 @@ function startBreakoutGame() {
       } else {
         ball.x = W / 2;
         ball.y = H - 40;
-        ball.vx = 3;
-        ball.vy = -3;
+        ball.vx = diff.ballSpeed * 0.6;
+        ball.vy = diff.ballSpeed * -0.6;
       }
     }
     

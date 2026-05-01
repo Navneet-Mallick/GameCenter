@@ -38,12 +38,15 @@ function startSpaceGame() {
   const enemies = [];
   const explosions = [];
   
+  // Difficulty settings
+  const diff = difficultyManager.getSpaceConfig();
+  
   let score = 0;
-  let lives = 3;
+  let lives = diff.lives;
   let gameOver = false;
   let gameStarted = false;
   let level = 1;
-  let enemySpeed = 1;
+  let enemySpeed = diff.enemySpeed;
   
   let keys = {};
   
@@ -80,9 +83,9 @@ function startSpaceGame() {
     if (gameOver && e.key === ' ') {
       // Restart game
       score = 0;
-      lives = 3;
+      lives = diff.lives;
       level = 1;
-      enemySpeed = 1;
+      enemySpeed = diff.enemySpeed;
       gameOver = false;
       gameStarted = true;
       bullets.length = 0;
@@ -148,9 +151,9 @@ function startSpaceGame() {
     if (gameOver) {
       // Restart game
       score = 0;
-      lives = 3;
+      lives = diff.lives;
       level = 1;
-      enemySpeed = 1;
+      enemySpeed = diff.enemySpeed;
       gameOver = false;
       gameStarted = true;
       bullets.length = 0;
@@ -237,7 +240,7 @@ function startSpaceGame() {
           
           enemy.active = false;
           bullets.splice(i, 1);
-          score += 10;
+          score += diff.scorePerEnemy;
           updateScore(score);
           
           explosions.push({
@@ -273,7 +276,7 @@ function startSpaceGame() {
     // Check level complete
     if (enemies.every(e => !e.active)) {
       level++;
-      enemySpeed += 0.5;
+      enemySpeed += 0.5 * difficultyManager.getSpeedMultiplier();
       spawnEnemies();
     }
     

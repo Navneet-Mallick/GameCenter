@@ -62,7 +62,10 @@ function startTetrisGame() {
 
   let board, piece, nextPiece, held, canHold, score, hiScore, lines, level, dead, started, dropTimer, dropInterval, lockTimer, lockDelay;
   let dasTimer = 0, dasDir = 0, dasActive = false;
-  const DAS = 170, ARR = 50, LOCK_DELAY = 500;
+  
+  // Difficulty settings
+  const diff = difficultyManager.getTetrisConfig();
+  const DAS = 170, ARR = 50, LOCK_DELAY = diff.lockDelay;
   hiScore = parseInt(localStorage.getItem('nm_tetris_hi') || '0');
 
   const hiDisplay    = document.getElementById('asteroid-hi-display');
@@ -122,11 +125,11 @@ function startTetrisGame() {
       // Remove cleared lines
       cleared.forEach(r => { board.splice(r,1); board.unshift(Array(COLS).fill(null)); });
       const pts = [0,100,300,500,800];
-      score += (pts[cleared.length]||800)*level;
+      score += Math.floor((pts[cleared.length] || 800) * level * difficultyManager.getScoreMultiplier());
       updateScore(score); // Update global score display
       lines += cleared.length;
       level = Math.floor(lines/10)+1;
-      dropInterval = Math.max(80, 1000 - (level-1)*90);
+      dropInterval = Math.max(80, diff.dropSpeed - (level-1) * diff.speedIncrease);
       if (scoreDisplay) scoreDisplay.textContent = `SCORE: ${score}`;
       if (score>hiScore) {
         hiScore=score;
@@ -174,7 +177,7 @@ function startTetrisGame() {
     held = null; canHold = true;
     score=0; lines=0; level=1;
     dead=false; started=false;
-    dropTimer=0; dropInterval=1000;
+    dropTimer=0; dropInterval=diff.dropSpeed;
     lockTimer=0; lockDelay=LOCK_DELAY;
     dasTimer=0; dasDir=0; dasActive=false;
     if (scoreDisplay) scoreDisplay.textContent='SCORE: 0';

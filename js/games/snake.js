@@ -28,6 +28,9 @@ function startSnakeGame() {
   const hiDisplay = document.getElementById('high-score');
   const scoreDisplay = document.getElementById('current-score');
   
+  // Difficulty settings
+  const diff = difficultyManager.getSnakeConfig();
+  
   function spawnFood() {
     food = {
       x: Math.floor(Math.random() * COLS),
@@ -57,7 +60,7 @@ function startSnakeGame() {
     
     // Check food
     if (head.x === food.x && head.y === food.y) {
-      score += 10;
+      score += diff.foodScore;
       updateScore(score);
       spawnFood();
     } else {
@@ -178,7 +181,7 @@ function startSnakeGame() {
   document.addEventListener('keydown', keyHandler);
   
   let lastTime = 0;
-  const gameSpeed = 100;
+  const gameSpeed = diff.speed;
   
   function loop(time) {
     if (!snakeRunning) {

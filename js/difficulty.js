@@ -33,6 +33,15 @@ class DifficultyManager {
         healthMultiplier: 0.7,
         scoreMultiplier: 2.0,
         description: 'Intense gameplay, faster enemies, less health'
+      },
+      expert: {
+        name: 'Expert',
+        icon: '💀',
+        multiplier: 2.0,
+        speedMultiplier: 1.6,
+        healthMultiplier: 0.5,
+        scoreMultiplier: 4.0,
+        description: 'Ultimate challenge! Extreme speed, one hit death'
       }
     };
   }
@@ -131,9 +140,9 @@ class DifficultyManager {
   getMinesweeperConfig() {
     const config = this.getDifficultyConfig();
     return {
-      gridSize: this.currentDifficulty === 'easy' ? 8 : this.currentDifficulty === 'normal' ? 10 : 12,
-      mineCount: this.currentDifficulty === 'easy' ? 10 : this.currentDifficulty === 'normal' ? 20 : 40,
-      timeLimit: this.currentDifficulty === 'easy' ? 600 : this.currentDifficulty === 'normal' ? 300 : 180,
+      gridSize: this.currentDifficulty === 'easy' ? 8 : this.currentDifficulty === 'normal' ? 10 : this.currentDifficulty === 'hard' ? 12 : 16,
+      mineCount: this.currentDifficulty === 'easy' ? 10 : this.currentDifficulty === 'normal' ? 20 : this.currentDifficulty === 'hard' ? 40 : 80,
+      timeLimit: this.currentDifficulty === 'easy' ? 600 : this.currentDifficulty === 'normal' ? 300 : this.currentDifficulty === 'hard' ? 180 : 120,
       scoreMultiplier: config.scoreMultiplier
     };
   }
@@ -153,7 +162,7 @@ class DifficultyManager {
               <div class="difficulty-name">${diff.name}</div>
               <div class="difficulty-desc">${diff.description}</div>
               <div class="difficulty-multiplier">
-                ${key === 'easy' ? '0.5x - 1.5x Score' : key === 'normal' ? '1x Score' : '2x Score'}
+                ${diff.scoreMultiplier}x Score
               </div>
             </button>
           `).join('')}

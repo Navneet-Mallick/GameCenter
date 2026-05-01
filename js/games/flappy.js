@@ -23,11 +23,13 @@ function startFlappyGame() {
     star: 'rgba(255,255,255,0.6)',
   };
 
-  const GRAVITY   = 0.35;   // less gravity = floatier, easier
-  const JUMP_V    = -7;     // softer jump
+  // Difficulty settings
+  const diff = difficultyManager.getFlappyConfig();
+  const GRAVITY   = diff.gravity;
+  const JUMP_V    = diff.jumpPower * -1;
   const PIPE_W    = 48;
-  const PIPE_GAP  = 165;    // wider gap = easier
-  const PIPE_SPD  = 2.2;    // slower pipes
+  const PIPE_GAP  = diff.pipeGap;
+  const PIPE_SPD  = diff.pipeSpeed;
   const GROUND_H  = 30;
 
   let bird, pipes, particles, score, hiScore, dead, started, frame, stars;
@@ -253,7 +255,7 @@ function startFlappyGame() {
 
       // Pipe spawning
       pipeTimer++;
-      if (pipeTimer > 110) { spawnPipe(); pipeTimer = 0; }
+      if (pipeTimer > diff.pipeFrequency) { spawnPipe(); pipeTimer = 0; }
 
       // Move pipes
       pipes.forEach(p => {
@@ -261,7 +263,7 @@ function startFlappyGame() {
         // Score
         if (!p.passed && p.x + PIPE_W < bird.x) {
           p.passed = true;
-          score++;
+          score += diff.scorePerPipe;
           updateScore(score); // Update global score display
           if (scoreDisplay) scoreDisplay.textContent = `SCORE: ${score}`;
           if (score > hiScore) {
