@@ -64,37 +64,78 @@ function updateLeaderboard(gameName) {
   
   // Get game stats
   const stats = JSON.parse(localStorage.getItem(`gc_${gameName}_stats`) || '{}');
+  const highScore = stats.highScore || 0;
   
-  if (!stats.highScore || stats.highScore === 0) {
-    leaderboardContent.innerHTML = `
-      <div class="leaderboard-empty">
-        <i class="fas fa-trophy"></i>
-        <p>No scores yet. Be the first to play!</p>
-      </div>
-    `;
-    return;
+  // Generate mock global scores for better visuals
+  const mockGlobalScores = [
+    { name: 'CyberKnight', score: Math.floor(highScore * 1.5) + 500, rank: 1, avatar: '👤' },
+    { name: 'NeonPulse', score: Math.floor(highScore * 1.2) + 200, rank: 2, avatar: '👤' },
+    { name: 'VoidWalker', score: Math.floor(highScore * 1.1) + 100, rank: 3, avatar: '👤' }
+  ];
+
+  // If no high score, use defaults for mock
+  if (highScore === 0) {
+    mockGlobalScores[0].score = 2500;
+    mockGlobalScores[1].score = 1800;
+    mockGlobalScores[2].score = 1200;
   }
   
-  // Display leaderboard
-  const leaderboardHTML = `
-    <div class="leaderboard-list">
-      <div class="leaderboard-item">
-        <div class="leaderboard-rank gold">🥇</div>
-        <div class="leaderboard-content">
-          <div style="color: var(--text-primary); font-weight: 600;">Your Best Score</div>
-          <div style="color: var(--text-muted); font-size: 0.9rem;">Personal Record</div>
-        </div>
-        <div class="leaderboard-score">${stats.highScore}</div>
-      </div>
-      <div class="leaderboard-item">
-        <div class="leaderboard-rank silver">📊</div>
-        <div class="leaderboard-content">
-          <div style="color: var(--text-primary); font-weight: 600;">Times Played</div>
-          <div style="color: var(--text-muted); font-size: 0.9rem;">Total Sessions</div>
-        </div>
-        <div class="leaderboard-score">${stats.plays || 0}</div>
-      </div>
+  let leaderboardHTML = `
+    <div class="leaderboard-header-row">
+      <div class="rank-col">Rank</div>
+      <div class="player-col">Player</div>
+      <div class="score-col">Score</div>
     </div>
+    <div class="leaderboard-list">
+  `;
+
+  // Add Global Top 3
+  mockGlobalScores.forEach(player => {
+    const rankClass = player.rank === 1 ? 'gold' : player.rank === 2 ? 'silver' : 'bronze';
+    const rankIcon = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : '🥉';
+    
+    leaderboardHTML += `
+      <div class="leaderboard-item global-rank">
+        <div class="leaderboard-rank ${rankClass}">${rankIcon}</div>
+        <div class="leaderboard-player">
+          <div class="player-avatar">${player.avatar}</div>
+          <div class="player-info">
+            <div class="player-name">${player.name}</div>
+            <div class="player-status">Global Pro</div>
+          </div>
+        </div>
+        <div class="leaderboard-score">${player.score.toLocaleString()}</div>
+      </div>
+    `;
+  });
+
+  // Add Personal Best
+  const personalRank = highScore > 0 ? 4 : '--';
+  leaderboardHTML += `
+    <div class="leaderboard-divider">Your Standing</div>
+    <div class="leaderboard-item personal-best ${highScore > 0 ? 'active' : ''}">
+      <div class="leaderboard-rank">${personalRank}</div>
+      <div class="leaderboard-player">
+        <div class="player-avatar" style="background: var(--accent-primary)">ME</div>
+        <div class="player-info">
+          <div class="player-name">You</div>
+          <div class="player-status">${highScore > 0 ? 'Ranked' : 'Not Ranked'}</div>
+        </div>
+      </div>
+      <div class="leaderboard-score">${highScore > 0 ? highScore.toLocaleString() : 'No Score'}</div>
+    </div>
+  </div>
+  
+  <div class="leaderboard-footer">
+    <div class="stat-mini">
+      <i class="fas fa-play"></i>
+      <span>Sessions: ${stats.plays || 0}</span>
+    </div>
+    <div class="stat-mini">
+      <i class="fas fa-clock"></i>
+      <span>Last Played: ${stats.lastPlayed ? new Date(stats.lastPlayed).toLocaleDateString() : 'Never'}</span>
+    </div>
+  </div>
   `;
   
   leaderboardContent.innerHTML = leaderboardHTML;

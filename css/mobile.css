@@ -54,6 +54,21 @@
   /* Header */
   .nav {
     display: none;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    flex-direction: column;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    gap: var(--spacing-md);
+    z-index: 999;
+  }
+
+  .nav.active {
+    display: flex;
   }
 
   .mobile-only {
@@ -140,8 +155,9 @@
   }
 
   .icon-btn {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
   }
 
   /* Hero */

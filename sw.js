@@ -3,40 +3,45 @@
  * Provides offline functionality and caching for PWA
  */
 
-const CACHE_NAME = 'gamecenter-v1.0.1';
-const RUNTIME_CACHE = 'gamecenter-runtime-v1.0.1';
+const CACHE_NAME = 'gamecenter-v1.0.2';
+const RUNTIME_CACHE = 'gamecenter-runtime-v1.0.2';
 
 // Files to cache immediately
 const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/css/games.css',
-  '/css/mobile.css',
-  '/js/main.js',
-  '/js/game-manager.js',
-  '/js/game-loader.js',
-  '/js/canvas-helper.js',
-  '/js/particles.js',
-  '/js/hero-animation.js',
-  '/js/stats.js',
-  '/js/achievements.js',
-  '/js/enhancements.js',
-  '/js/sound-effects.js',
-  '/js/pause-system.js',
-  '/js/settings.js',
-  '/js/difficulty.js',
-  '/js/performance-optimizer.js',
-  '/js/game-optimizer.js',
-  '/js/debug.js',
-  '/js/games/runner.js',
-  '/js/games/flappy.js',
-  '/js/games/tetris.js',
-  '/js/games/minesweeper.js',
-  '/js/games/snake.js',
-  '/js/games/breakout.js',
-  '/js/games/space.js',
-  '/manifest.json'
+  './',
+  './index.html',
+  './css/style.css',
+  './css/games.css',
+  './css/mobile.css',
+  './js/main.js',
+  './js/game-manager.js',
+  './js/game-loader.js',
+  './js/canvas-helper.js',
+  './js/particles.js',
+  './js/hero-animation.js',
+  './js/stats.js',
+  './js/achievements.js',
+  './js/enhancements.js',
+  './js/sound-effects.js',
+  './js/pause-system.js',
+  './js/music-manager.js',
+  './js/settings.js',
+  './js/difficulty.js',
+  './js/performance-optimizer.js',
+  './js/game-optimizer.js',
+  './js/debug.js',
+  './js/games/runner.js',
+  './js/games/flappy.js',
+  './js/games/tetris.js',
+  './js/games/minesweeper.js',
+  './js/games/snake.js',
+  './js/games/breakout.js',
+  './js/games/space.js',
+  './manifest.json',
+  './icons/icon-96x96.svg',
+  './icons/icon-144x144.svg',
+  './icons/icon-192x192.svg',
+  './icons/icon-512x512.svg'
 ];
 
 // Install event - cache core files
@@ -146,8 +151,8 @@ async function syncScores() {
 self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'New game available!',
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/icon-72x72.png',
+    icon: './icons/icon-192x192.svg',
+    badge: './icons/icon-96x96.svg',
     vibrate: [200, 100, 200],
     data: {
       dateOfArrival: Date.now(),
@@ -157,12 +162,12 @@ self.addEventListener('push', (event) => {
       {
         action: 'play',
         title: 'Play Now',
-        icon: '/icons/icon-96x96.png'
+        icon: './icons/icon-96x96.svg'
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/icons/icon-96x96.png'
+        icon: './icons/icon-96x96.svg'
       }
     ]
   };

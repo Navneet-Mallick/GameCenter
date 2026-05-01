@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavigation();
   initSound();
+  initMobileMenu();
   
   // Defer non-critical initialization
   performanceOptimizer.scheduleIdleTask(() => {
@@ -60,11 +61,14 @@ function initTheme() {
   applyThemeState(resolveTheme(savedTheme));
   
   themeToggle.addEventListener('click', () => {
-    const nextTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+    const isLight = document.body.classList.contains('light-theme');
+    const nextTheme = isLight ? 'dark' : 'light';
     applyThemeState(nextTheme);
     localStorage.setItem('gc_theme', nextTheme);
     if (window.settingsManager) {
       window.settingsManager.settings.theme = nextTheme;
+      const themeSelect = document.getElementById('theme-select');
+      if (themeSelect) themeSelect.value = nextTheme;
     }
     
     // Ripple effect
@@ -124,21 +128,72 @@ let soundEnabled = true;
 
 function initSound() {
   const soundToggle = document.getElementById('sound-toggle');
-  const savedSound = localStorage.getItem('gc_sound');
-  
-  if (savedSound === 'false') {
-    soundEnabled = false;
-    soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-  }
-  
-  soundToggle.addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    soundToggle.innerHTML = soundEnabled ? 
+  if (!soundToggle) return;
+
+  const updateSoundIcon = (enabled) => {
+    soundToggle.innerHTML = enabled ? 
       '<i class="fas fa-volume-up"></i>' : 
       '<i class="fas fa-volume-mute"></i>';
-    localStorage.setItem('gc_sound', soundEnabled);
+  };
+
+  const isEnabled = localStorage.getItem('gc_sound_effects') !== 'false';
+  updateSoundIcon(isEnabled);
+  
+  soundToggle.addEventListener('click', () => {
+    const currentState = localStorage.getItem('gc_sound_effects') !== 'false';
+    const newState = !currentState;
     
-    showToast(soundEnabled ? 'Sound enabled' : 'Sound muted', 'success');
+    updateSoundIcon(newState);
+    localStorage.setItem('gc_sound_effects', newState);
+    localStorage.setItem('gc_music_enabled', newState);
+    
+    if (window.soundEffects) soundEffects.setEnabled(newState);
+    if (window.musicManager) musicManager.setEnabled(newState);
+    if (window.settingsManager) {
+      window.settingsManager.settings.soundEffects = newState;
+      window.settingsManager.settings.musicEnabled = newState;
+      const soundCheck = document.getElementById('sound-effects-toggle');
+      const musicCheck = document.getElementById('music-toggle');
+      if (soundCheck) soundCheck.checked = newState;
+      if (musicCheck) musicCheck.checked = newState;
+    }
+    
+    showToast(newState ? 'Sound & Music enabled' : 'Sound & Music muted', 'success');
+    if (newState && window.soundEffects) soundEffects.click();
+    
+    createRipple(soundToggle);
+  });
+}
+
+function initMobileMenu() {
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const nav = document.querySelector('.nav');
+  if (!menuBtn || !nav) return;
+
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    nav.classList.toggle('active');
+    menuBtn.innerHTML = nav.classList.contains('active') ? 
+      '<i class="fas fa-times"></i>' : 
+      '<i class="fas fa-bars"></i>';
+    
+    createRipple(menuBtn);
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (nav.classList.contains('active') && !nav.contains(e.target) && e.target !== menuBtn) {
+      nav.classList.remove('active');
+      menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+  });
+
+  // Close menu when clicking a link
+  nav.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('active');
+      menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    });
   });
 }
 

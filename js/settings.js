@@ -42,34 +42,83 @@ class SettingsManager {
           <div class="settings-body">
             <!-- Audio Settings -->
             <div class="settings-section">
-              <h3><i class="fas fa-volume-up"></i> Audio</h3>
+              <h3><i class="fas fa-music"></i> Music System</h3>
               
-              <div class="setting-item">
-                <label>Sound Effects</label>
-                <div class="toggle-switch">
-                  <input type="checkbox" id="sound-effects-toggle" class="toggle-input">
-                  <span class="toggle-slider"></span>
+              <div class="music-card">
+                <div class="music-info-header">
+                  <div class="music-details">
+                    <span class="track-label">Currently Playing</span>
+                    <h4 id="current-track-name">Interstellar</h4>
+                  </div>
+                  <div class="music-controls">
+                    <button class="music-btn" onclick="musicManager.setTrack((musicManager.currentTrackIndex - 1 + musicManager.tracks.length) % musicManager.tracks.length)">
+                      <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button class="music-btn play-pause" id="music-play-btn">
+                      <i class="fas fa-play"></i>
+                    </button>
+                    <button class="music-btn" onclick="musicManager.nextTrack()">
+                      <i class="fas fa-step-forward"></i>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="music-progress-container">
+                  <div class="music-progress-bar" id="music-progress"></div>
+                </div>
+
+                <div class="music-visualizer-mock">
+                  <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                  <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
                 </div>
               </div>
 
               <div class="setting-item">
-                <label>Sound Volume</label>
-                <input type="range" id="sound-volume-slider" min="0" max="100" value="50" class="slider">
-                <span class="volume-display" id="sound-volume-display">50%</span>
-              </div>
-
-              <div class="setting-item">
-                <label>Music</label>
-                <div class="toggle-switch">
+                <label>Music Enabled</label>
+                <label class="toggle-switch">
                   <input type="checkbox" id="music-toggle" class="toggle-input">
                   <span class="toggle-slider"></span>
-                </div>
+                </label>
               </div>
 
               <div class="setting-item">
                 <label>Music Volume</label>
-                <input type="range" id="music-volume-slider" min="0" max="100" value="30" class="slider">
+                <div class="slider-wrapper">
+                  <i class="fas fa-volume-down"></i>
+                  <input type="range" id="music-volume-slider" min="0" max="100" value="30" class="slider">
+                  <i class="fas fa-volume-up"></i>
+                </div>
                 <span class="volume-display" id="music-volume-display">30%</span>
+              </div>
+
+              <div class="setting-item">
+                <label>Select Track</label>
+                <select id="music-track-select" class="select-input">
+                  <option value="0">Interstellar (Calm)</option>
+                  <option value="1">Hotel California (Classic)</option>
+                  <option value="2">Demons Phonk (Hype)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- SFX Settings -->
+            <div class="settings-section">
+              <h3><i class="fas fa-volume-up"></i> Sound Effects</h3>
+              
+              <div class="setting-item">
+                <label>SFX Enabled</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="sound-effects-toggle" class="toggle-input">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-item">
+                <label>SFX Volume</label>
+                <div class="slider-wrapper">
+                  <input type="range" id="sound-volume-slider" min="0" max="100" value="50" class="slider">
+                </div>
+                <span class="volume-display" id="sound-volume-display">50%</span>
               </div>
             </div>
 
@@ -88,26 +137,26 @@ class SettingsManager {
 
               <div class="setting-item">
                 <label>Particles</label>
-                <div class="toggle-switch">
+                <label class="toggle-switch">
                   <input type="checkbox" id="particles-toggle" class="toggle-input">
                   <span class="toggle-slider"></span>
-                </div>
+                </label>
               </div>
 
               <div class="setting-item">
                 <label>Animations</label>
-                <div class="toggle-switch">
+                <label class="toggle-switch">
                   <input type="checkbox" id="animations-toggle" class="toggle-input">
                   <span class="toggle-slider"></span>
-                </div>
+                </label>
               </div>
 
               <div class="setting-item">
                 <label>Show FPS Counter</label>
-                <div class="toggle-switch">
+                <label class="toggle-switch">
                   <input type="checkbox" id="fps-toggle" class="toggle-input">
                   <span class="toggle-slider"></span>
-                </div>
+                </label>
               </div>
             </div>
 
@@ -126,10 +175,10 @@ class SettingsManager {
 
               <div class="setting-item">
                 <label>Notifications</label>
-                <div class="toggle-switch">
+                <label class="toggle-switch">
                   <input type="checkbox" id="notifications-toggle" class="toggle-input">
                   <span class="toggle-slider"></span>
-                </div>
+                </label>
               </div>
             </div>
 
@@ -167,6 +216,8 @@ class SettingsManager {
   }
 
   setupEventListeners() {
+    if (this.listenersInitialized) return;
+
     const modal = document.getElementById('settings-modal');
     if (modal) {
       modal.addEventListener('click', (e) => {
@@ -184,6 +235,8 @@ class SettingsManager {
         }
       }
     });
+
+    this.listenersInitialized = true;
 
     // Sound Effects
     const soundToggle = document.getElementById('sound-effects-toggle');
@@ -217,6 +270,10 @@ class SettingsManager {
       musicToggle.addEventListener('change', (e) => {
         this.settings.musicEnabled = e.target.checked;
         localStorage.setItem('gc_music_enabled', e.target.checked);
+        if (window.musicManager) {
+          musicManager.setEnabled(e.target.checked);
+        }
+        soundEffects.click();
       });
     }
 
@@ -228,7 +285,49 @@ class SettingsManager {
         this.settings.musicVolume = e.target.value / 100;
         localStorage.setItem('gc_music_volume', this.settings.musicVolume);
         document.getElementById('music-volume-display').textContent = e.target.value + '%';
+        if (window.musicManager) {
+          musicManager.setVolume(this.settings.musicVolume);
+        }
       });
+    }
+
+    // Music Track
+    const musicTrack = document.getElementById('music-track-select');
+    if (musicTrack) {
+      musicTrack.value = localStorage.getItem('gc_music_track_index') || '0';
+      musicTrack.addEventListener('change', (e) => {
+        const index = parseInt(e.target.value);
+        if (window.musicManager) {
+          musicManager.setTrack(index);
+          this.updateMusicUI();
+        }
+        soundEffects.click();
+      });
+    }
+
+    // Music Play/Pause Button
+    const playPauseBtn = document.getElementById('music-play-btn');
+    if (playPauseBtn) {
+      playPauseBtn.addEventListener('click', () => {
+        if (window.musicManager) {
+          if (musicManager.audio.paused) {
+            musicManager.play();
+          } else {
+            musicManager.pause();
+          }
+          this.updateMusicUI();
+        }
+      });
+    }
+
+    // Connect Music Progress
+    if (window.musicManager) {
+      musicManager.onProgress = (progress) => {
+        const progressBar = document.getElementById('music-progress');
+        if (progressBar) {
+          progressBar.style.width = `${progress}%`;
+        }
+      };
     }
 
     // Theme
@@ -379,8 +478,32 @@ class SettingsManager {
     if (modal) {
       modal.style.display = 'flex';
       this.updateStorageInfo();
-      // Re-setup event listeners to ensure they're active
-      this.setupEventListeners();
+      this.updateMusicUI();
+      // Listeners are already setup in init()
+    }
+  }
+
+  updateMusicUI() {
+    if (!window.musicManager) return;
+    
+    const track = musicManager.getCurrentTrack();
+    const nameEl = document.getElementById('current-track-name');
+    if (nameEl) nameEl.textContent = track.name;
+    
+    const playBtn = document.getElementById('music-play-btn');
+    if (playBtn) {
+      playBtn.innerHTML = musicManager.audio.paused 
+        ? '<i class="fas fa-play"></i>' 
+        : '<i class="fas fa-pause"></i>';
+    }
+
+    const visualizer = document.querySelector('.music-visualizer-mock');
+    if (visualizer) {
+      if (musicManager.audio.paused) {
+        visualizer.classList.remove('animating');
+      } else {
+        visualizer.classList.add('animating');
+      }
     }
   }
 
