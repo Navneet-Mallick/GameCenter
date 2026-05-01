@@ -36,17 +36,36 @@ function initTheme() {
   }
 
   const savedTheme = localStorage.getItem('gc_theme') || 'dark';
-  
-  if (savedTheme === 'light') {
-    document.body.classList.add('light-theme');
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-  }
+  const resolveTheme = (theme) => {
+    if (theme === 'auto') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return theme;
+  };
+
+  const applyThemeState = (theme) => {
+    const isLight = theme === 'light';
+    document.body.classList.toggle('light-theme', isLight);
+    themeToggle.innerHTML = isLight
+      ? '<i class="fas fa-sun"></i>'
+      : '<i class="fas fa-moon"></i>';
+
+    // Keep settings modal dropdown in sync with header toggle.
+    const themeSelect = document.getElementById('theme-select');
+    if (themeSelect && themeSelect.value !== theme) {
+      themeSelect.value = theme;
+    }
+  };
+
+  applyThemeState(resolveTheme(savedTheme));
   
   themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('light-theme');
-    const isLight = document.body.classList.contains('light-theme');
-    themeToggle.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-    localStorage.setItem('gc_theme', isLight ? 'light' : 'dark');
+    const nextTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+    applyThemeState(nextTheme);
+    localStorage.setItem('gc_theme', nextTheme);
+    if (window.settingsManager) {
+      window.settingsManager.settings.theme = nextTheme;
+    }
     
     // Ripple effect
     createRipple(themeToggle);

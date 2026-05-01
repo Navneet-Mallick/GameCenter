@@ -164,6 +164,24 @@ class SettingsManager {
   }
 
   setupEventListeners() {
+    const modal = document.getElementById('settings-modal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          this.closeSettings();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const settingsModal = document.getElementById('settings-modal');
+        if (settingsModal && settingsModal.style.display === 'flex') {
+          this.closeSettings();
+        }
+      }
+    });
+
     // Sound Effects
     const soundToggle = document.getElementById('sound-effects-toggle');
     if (soundToggle) {
@@ -242,7 +260,7 @@ class SettingsManager {
       animationsToggle.addEventListener('change', (e) => {
         this.settings.animationsEnabled = e.target.checked;
         localStorage.setItem('gc_animations', e.target.checked);
-        document.body.style.animation = e.target.checked ? '' : 'none';
+        document.body.classList.toggle('animations-disabled', !e.target.checked);
       });
     }
 
@@ -283,20 +301,35 @@ class SettingsManager {
     this.applyTheme(this.settings.theme);
     soundEffects.setEnabled(this.settings.soundEffects);
     soundEffects.setVolume(this.settings.soundVolume);
+    document.body.classList.toggle('animations-disabled', !this.settings.animationsEnabled);
+
+    const particles = document.getElementById('particles');
+    if (particles) {
+      particles.style.display = this.settings.particlesEnabled ? 'block' : 'none';
+    }
   }
 
   applyTheme(theme) {
-    if (theme === 'light') {
-      document.body.classList.add('light-theme');
-    } else if (theme === 'dark') {
-      document.body.classList.remove('light-theme');
-    } else if (theme === 'auto') {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (prefersDark) {
-        document.body.classList.remove('light-theme');
-      } else {
-        document.body.classList.add('light-theme');
-      }
+    const resolvedTheme = theme === 'auto'
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : theme;
+
+    document.body.classList.toggle('light-theme', resolvedTheme === 'light');
+
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+      themeToggle.innerHTML = resolvedTheme === 'light'
+        ? '<i class="fas fa-sun"></i>'
+        : '<i class="fas fa-moon"></i>';
+    }
+
+    const themeSelect = document.getElementById('theme-select');
+    if (themeSelect && themeSelect.value !== theme) {
+      themeSelect.value = theme;
+    }
+
+    if (window.settingsManager && window.settingsManager.settings) {
+      window.settingsManager.settings.theme = theme;
     }
   }
 
