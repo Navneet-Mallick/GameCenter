@@ -1,5 +1,5 @@
 /**
- * GameCenter - Music Manager
+ * ProGames07 - Music Manager
  * Handles background music playback and track selection
  */
 

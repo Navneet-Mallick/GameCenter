@@ -1,5 +1,5 @@
 /**
- * GameCenter - Game Optimizer
+ * ProGames07 - Game Optimizer
  * Ensures smooth 60fps gameplay
  */
 

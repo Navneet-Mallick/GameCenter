@@ -493,9 +493,4 @@ function startTetrisGame() {
   tetrisRaf=requestAnimationFrame(loop);
 }
 
-function openTetrisGame() {
-  const modal = document.getElementById('game-modal');
-  modal.style.display = 'flex';
-  modal.setAttribute('aria-hidden', 'false');
-  switchGame('asteroid');
-}
+

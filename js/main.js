@@ -1,5 +1,5 @@
 /**
- * GameCenter - Main Application
+ * ProGames07 - Main Application
  * Handles theme, navigation, and global functionality
  */
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePlayStreak();
   });
   
-  console.log('%c🎮 GameCenter Loaded!', 'color:#00e5ff;font-size:20px;font-weight:bold;');
+  console.log('%c🎮 ProGames07 Loaded!', 'color:#00e5ff;font-size:20px;font-weight:bold;');
 });
 
 // ═══════════════════════════════════════════════════════════════════

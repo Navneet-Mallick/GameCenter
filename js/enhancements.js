@@ -1,5 +1,5 @@
 /**
- * GameCenter - Enhancements
+ * ProGames07 - Enhancements
  * Additional features and utilities for enhanced gameplay
  */
 
@@ -35,7 +35,7 @@ function getGameStatistics() {
 
 function displayGameStatistics() {
   const stats = getGameStatistics();
-  console.log('%c📊 GameCenter Statistics', 'color:#00e5ff;font-size:16px;font-weight:bold;');
+  console.log('%c📊 ProGames07 Statistics', 'color:#00e5ff;font-size:16px;font-weight:bold;');
   console.log(`Total Plays: ${stats.totalPlays}`);
   console.log(`Games Played: ${stats.gamesPlayed}/${stats.totalGames}`);
   console.log(`Total High Score: ${stats.totalHighScore}`);

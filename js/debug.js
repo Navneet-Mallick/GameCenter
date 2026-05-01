@@ -3,7 +3,7 @@
  */
 
 window.addEventListener('load', () => {
-  console.log('%c🎮 GameCenter Debug', 'color:#00e5ff;font-size:16px;font-weight:bold;');
+  console.log('%c🎮 ProGames07 Debug', 'color:#00e5ff;font-size:16px;font-weight:bold;');
   
   // Check canvas
   const canvas = document.querySelector('canvas');

@@ -324,9 +324,4 @@ function startFlappyGame() {
   flappyRaf = requestAnimationFrame(loop);
 }
 
-function openFlappyGame() {
-  const modal = document.getElementById('game-modal');
-  modal.style.display = 'flex';
-  modal.setAttribute('aria-hidden', 'false');
-  switchGame('snake');
-}
+

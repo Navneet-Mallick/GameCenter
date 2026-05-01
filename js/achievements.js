@@ -1,5 +1,5 @@
 /**
- * GameCenter - Achievements System
+ * ProGames07 - Achievements System
  * Tracks and displays player achievements and badges
  */
 

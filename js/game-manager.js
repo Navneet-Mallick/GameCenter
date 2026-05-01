@@ -1,5 +1,5 @@
 /**
- * GameCenter - Game Manager
+ * ProGames07 - Game Manager
  * Handles game loading, modal, and game lifecycle
  */
 

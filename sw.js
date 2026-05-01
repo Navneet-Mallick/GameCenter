@@ -1,10 +1,10 @@
 /**
- * GameCenter Service Worker
+ * ProGames07 Service Worker
  * Provides offline functionality and caching for PWA
  */
 
-const CACHE_NAME = 'gamecenter-v1.0.2';
-const RUNTIME_CACHE = 'gamecenter-runtime-v1.0.2';
+const CACHE_NAME = 'progames07-v1.0.3';
+const RUNTIME_CACHE = 'progames07-runtime-v1.0.3';
 
 // Files to cache immediately
 const PRECACHE_URLS = [
@@ -171,7 +171,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification('GameCenter', options)
+    self.registration.showNotification('ProGames07', options)
   );
 });
 

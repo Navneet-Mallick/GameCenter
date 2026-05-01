@@ -1,5 +1,5 @@
 /**
- * GameCenter - Settings System
+ * ProGames07 - Settings System
  * Manages user preferences and settings
  */
 

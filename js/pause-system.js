@@ -1,5 +1,5 @@
 /**
- * GameCenter - Pause System
+ * ProGames07 - Pause System
  * Handles game pause/resume functionality
  */
 

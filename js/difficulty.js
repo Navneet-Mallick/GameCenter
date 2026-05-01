@@ -1,5 +1,5 @@
 /**
- * GameCenter - Difficulty System
+ * ProGames07 - Difficulty System
  * Manages game difficulty levels and modifiers
  */
 

@@ -239,9 +239,9 @@ function startRunnerGame() {
       score++;
       speed = 5.5 + Math.floor(score / 300) * 0.5;
 
-      // Update global score display
       const displayScore = Math.floor(score / 6);
       updateScore(displayScore);
+      updatePersonality(displayScore);
 
       // Spawn obstacles
       obstacleTimer++;
@@ -262,9 +262,7 @@ function startRunnerGame() {
       obstacles = obstacles.filter(o => o.x + o.w > -10);
 
       // Score display
-      const displayScore = Math.floor(score / 6);
       document.getElementById('game-score-display').textContent = `SCORE: ${displayScore}`;
-      updatePersonality(displayScore);
       if (displayScore > hiScore) {
         hiScore = displayScore;
         localStorage.setItem('nm_runner_hi', hiScore);

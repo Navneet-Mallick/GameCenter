@@ -1,5 +1,5 @@
 /**
- * GameCenter - Performance Optimizer
+ * ProGames07 - Performance Optimizer
  * Optimizes game loading and rendering performance
  */
 

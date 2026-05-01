@@ -1,5 +1,5 @@
 /**
- * GameCenter - Game Loader
+ * ProGames07 - Game Loader
  * Handles game loading and canvas ID mapping
  */
 

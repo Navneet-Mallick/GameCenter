@@ -1,5 +1,5 @@
 /**
- * GameCenter - Sound Effects System
+ * ProGames07 - Sound Effects System
  * Manages all game audio and sound effects
  */
 

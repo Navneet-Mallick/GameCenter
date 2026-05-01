@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   
   <!-- SEO -->
-  <title>GameCenter | Play Awesome Browser Games</title>
-  <meta name="description" content="Play 7 awesome browser games including Runner, Flappy Bird, Tetris, Minesweeper, Snake, Breakout, and Space Invaders. All games optimized for mobile and desktop.">
+  <title>ProGames07 | Play Awesome Browser Games</title>
+  <meta name="description" content="Play 7 awesome browser games on ProGames07 including Runner, Flappy Bird, Tetris, Minesweeper, Snake, Breakout, and Space Invaders. Optimized for mobile and desktop.">
   <meta name="keywords" content="browser games, online games, free games, arcade games, tetris, snake, flappy bird">
   <meta name="author" content="Navneet Mallick">
   
@@ -15,11 +15,11 @@
   <link rel="icon" type="image/png" href="./icons/icon-512x512.png">
   
   <!-- PWA Manifest -->
-  <link rel="manifest" href="./manifest.json?v=1.0.2">
+  <link rel="manifest" href="./manifest.json?v=1.0.3">
   <meta name="theme-color" content="#00e5ff">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="GameCenter">
+  <meta name="apple-mobile-web-app-title" content="ProGames07">
   <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
   <meta name="mobile-web-app-capable" content="yes">
   
@@ -46,7 +46,7 @@
     <div class="container">
       <div class="logo">
         <i class="fas fa-gamepad"></i>
-        <span>GameCenter</span>
+        <span>ProGames07</span>
       </div>
       <nav class="nav">
         <a href="#home" class="nav-link active">Home</a>
@@ -77,7 +77,7 @@
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title">
-          <span class="glitch" data-text="GameCenter">ProGames07</span>
+          <span class="glitch" data-text="ProGames07">ProGames07</span>
         </h1>
         <p class="hero-subtitle">Play 7 Awesome Browser Games</p>
         <p class="hero-description">
@@ -294,12 +294,12 @@
   <section id="about" class="about-section">
     <div class="container">
       <h2 class="section-title">
-        <i class="fas fa-info-circle"></i> About GameCenter
+        <i class="fas fa-info-circle"></i> About ProGames07
       </h2>
       <div class="about-content">
         <div class="about-text">
           <h3>Classic Games, Modern Experience</h3>
-          <p>GameCenter brings you 7 classic arcade games reimagined for modern browsers. All games are:</p>
+          <p>ProGames07 brings you 7 classic arcade games reimagined for modern browsers. All games are:</p>
           <ul class="feature-list">
             <li><i class="fas fa-check"></i> 100% Free to play</li>
             <li><i class="fas fa-check"></i> No downloads required</li>
@@ -343,7 +343,7 @@
       <div class="footer-content">
         <div class="footer-brand">
           <i class="fas fa-gamepad"></i>
-          <span>Fun7Games</span>
+          <span>ProGames07</span>
         </div>
         <p>Made with ❤️ by <a href="https://github.com/Navneet-Mallick" target="_blank">Navneet Mallick</a></p>
         <p>Optimised using KIRO IDE</p>
@@ -404,7 +404,7 @@
     // Register Service Worker for PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('./sw.js?v=1.0.3')
           .then(registration => {
             console.log('✓ Service Worker registered:', registration.scope);
           })
