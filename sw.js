@@ -38,10 +38,8 @@ const PRECACHE_URLS = [
   './js/games/breakout.js',
   './js/games/space.js',
   './manifest.json',
-  './icons/icon-96x96.svg',
-  './icons/icon-144x144.svg',
-  './icons/icon-192x192.svg',
-  './icons/icon-512x512.svg'
+  './icons/icon-192x192.png',
+  './icons/icon-512x512.png'
 ];
 
 // Install event - cache core files
@@ -151,8 +149,8 @@ async function syncScores() {
 self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'New game available!',
-    icon: './icons/icon-192x192.svg',
-    badge: './icons/icon-96x96.svg',
+    icon: './icons/icon-192x192.png',
+    badge: './icons/icon-192x192.png',
     vibrate: [200, 100, 200],
     data: {
       dateOfArrival: Date.now(),
@@ -162,12 +160,12 @@ self.addEventListener('push', (event) => {
       {
         action: 'play',
         title: 'Play Now',
-        icon: './icons/icon-96x96.svg'
+        icon: './icons/icon-192x192.png'
       },
       {
         action: 'close',
         title: 'Close',
-        icon: './icons/icon-96x96.svg'
+        icon: './icons/icon-192x192.png'
       }
     ]
   };
